@@ -1,7 +1,7 @@
 apiVersion: v2
-name: openapi-service-template
+name: adcp-profiler-service
 appVersion: '0.0.1'
-description: A Helm chart for openapi-service-template
+description: A Helm chart for adcp-profiler-service
 version: '0.0.1'
 type: application
 maintainers:

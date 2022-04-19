@@ -1,7 +1,7 @@
 {{/*
 Create name to be used with deployment.
 */}}
-{{- define "openapi-service-template.fullname" -}}
+{{- define "adcp-profiler-service.fullname" -}}
     {{- if .Values.fullnameOverride -}}
         {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
     {{- else -}}
@@ -17,23 +17,23 @@ Create name to be used with deployment.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "openapi-service-template.chart" -}}
+{{- define "adcp-profiler-service.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Selector labels
 */}}
-{{- define "openapi-service-template.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "openapi-service-template.fullname" . }}
+{{- define "adcp-profiler-service.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "adcp-profiler-service.fullname" . }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "openapi-service-template.labels" -}}
-helm.sh/chart: {{ include "openapi-service-template.chart" . }}
-{{ include "openapi-service-template.selectorLabels" . }}
+{{- define "adcp-profiler-service.labels" -}}
+helm.sh/chart: {{ include "adcp-profiler-service.chart" . }}
+{{ include "adcp-profiler-service.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -43,7 +43,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Conditionally populate imagePullSecrets if present in the context
 */}}
-{{- define "openapi-service-template.imagePullSecrets" -}}
+{{- define "adcp-profiler-service.imagePullSecrets" -}}
   {{- if (not (empty .Values.image.pullSecrets)) }}
 imagePullSecrets:
     {{- range .Values.image.pullSecrets }}
