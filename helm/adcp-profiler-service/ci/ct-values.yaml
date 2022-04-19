@@ -1,4 +1,0 @@
-image:
-  repository: 'adcp-profiler-service'
-  tag: 'latest'
-  PullPolicy: Never
