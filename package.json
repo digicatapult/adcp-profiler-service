@@ -1,6 +1,6 @@
 {
   "name": "@digicatapult/adcp-profiler-service",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Insert repo description",
   "main": "app/index.js",
   "scripts": {
@@ -37,7 +37,6 @@
     "express": "^4.17.3",
     "express-openapi": "^10.1.0",
     "knex": "^1.0.7",
-    "pg": "^8.7.3",
     "pino": "^7.10.0",
     "pino-http": "^6.6.0",
     "swagger-ui-express": "^4.3.0"
