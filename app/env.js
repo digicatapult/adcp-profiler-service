@@ -18,7 +18,7 @@ const vars = envalid.cleanEnv(
     LOG_LEVEL: envalid.str({ default: 'info', devDefault: 'debug' }),
     DB_HOST: envalid.host({ devDefault: 'localhost' }),
     DB_PORT: envalid.port({ default: 5432 }),
-    DB_NAME: envalid.str({ default: 'adcp-profiler-service' }),
+    DB_NAME: envalid.str({ default: 'profiler' }),
     DB_USERNAME: envalid.str({ devDefault: 'postgres' }),
     DB_PASSWORD: envalid.str({ devDefault: 'postgres' }),
   },
