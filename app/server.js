@@ -32,7 +32,6 @@ async function createHttpServer() {
   initialize({
     app,
     apiDoc: v1ApiDoc,
-    securityHandlers: {},
     dependencies: {
       apiService: v1ApiService,
     },

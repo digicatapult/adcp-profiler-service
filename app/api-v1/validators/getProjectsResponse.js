@@ -2,23 +2,23 @@ const OpenAPIResponseValidator = require('openapi-response-validator').default
 
 const apiDocResponses = require('../api-doc-responses')
 
-const projectResponses = {
+const GET_PROJECTS_RESPONSES = {
   200: {
-    description: 'Returned Profiles',
+    description: 'Returned projects',
     content: {
       'application/json': {},
     },
   },
-  ...apiDocResponses,
+  default: apiDocResponses.default,
 }
 
-const validateProjectResponses = (statusCode, result) => {
-  const responseValidator = new OpenAPIResponseValidator({ responses: projectResponses })
+const validateGetProjectResponse = (statusCode, result) => {
+  const responseValidator = new OpenAPIResponseValidator({ responses: GET_PROJECTS_RESPONSES })
 
   return responseValidator.validateResponse(statusCode, result)
 }
 
 module.exports = {
-  projectResponses,
-  validateProjectResponses,
+  GET_PROJECTS_RESPONSES,
+  validateGetProjectResponse,
 }

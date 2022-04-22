@@ -1,9 +1,9 @@
-const { findProfilesDb } = require('../../db')
+const { findProjectsDb } = require('../../db')
 
-function getProfiles() {
-  return findProfilesDb()
+async function getProjects() {
+  return findProjectsDb()
 }
 
 module.exports = {
-  getProfiles,
+  getProjects,
 }

@@ -15,11 +15,11 @@ const client = knex({
   },
 })
 
-async function findProfilesDb() {
-  return client('profiler').select('*').orderBy('id')
+async function findProjectsDb() {
+  return client('profiler').select(['id', 'name', 'description']).orderBy('id')
 }
 
 module.exports = {
   client,
-  findProfilesDb,
+  findProjectsDb,
 }

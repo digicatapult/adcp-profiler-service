@@ -55,5 +55,8 @@
     "pino-colada": "^2.2.2",
     "prettier": "^2.6.2",
     "supertest": "^6.2.2"
+  },
+  "peerDependencies": {
+    "pg": "^8.7.3"
   }
 }

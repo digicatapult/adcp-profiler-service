@@ -1,13 +1,12 @@
-//Get Projects
 //Post new project
-const { projectResponses, validateProjectResponses } = require('../../validators/getProjectsResponse')
+const { GET_PROJECTS_RESPONSES, validateGetProjectResponse } = require('../../validators/getProjectsResponse')
 
 module.exports = function (apiService) {
   const doc = {
     GET: async function (req, res) {
-      const result = await apiService.getProfiles()
+      const result = await apiService.getProjects()
 
-      const validationErrors = validateProjectResponses(400, result)
+      const validationErrors = validateGetProjectResponse(400, result)
 
       if (validationErrors) {
         res.status(400).json(validationErrors)
@@ -20,9 +19,10 @@ module.exports = function (apiService) {
   }
 
   doc.GET.apiDoc = {
-    summary: 'Get my profiles',
-    responses: projectResponses,
-    security: [],
+    summary: 'Get projects',
+    responses: GET_PROJECTS_RESPONSES,
     tags: ['profiler'],
   }
+
+  return doc
 }

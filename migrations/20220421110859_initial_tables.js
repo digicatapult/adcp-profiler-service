@@ -11,6 +11,7 @@ exports.up = async (knex) => {
   await knex.schema.createTable('profiler', (def) => {
     def.uuid('id').defaultTo(uuidGenerateV4())
     def.string('name', 50).unique().notNullable()
+    def.string('description', 50).unique().notNullable()
     def.datetime('created_at').notNullable().default(now())
     def.datetime('updated_at').notNullable().default(now())
 

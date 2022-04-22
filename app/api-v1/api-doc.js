@@ -29,8 +29,27 @@ const apiDoc = {
         description: 'An error occurred',
       },
     },
-    schemas: {},
-    securitySchemes: {},
+    schemas: {
+      PostProject: {
+        description: 'Project schema',
+        type: 'object',
+        properties: {
+          id: {
+            description: 'Project ID',
+            type: 'string',
+          },
+          name: {
+            description: 'Project Name',
+            type: 'string',
+          },
+          description: {
+            description: 'Project Description',
+            type: 'string',
+          },
+        },
+        required: ['name', 'description'],
+      },
+    },
   },
   paths: {},
 }
