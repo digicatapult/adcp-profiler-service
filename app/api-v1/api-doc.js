@@ -19,6 +19,9 @@ const apiDoc = {
       BadRequestError: {
         description: 'The request is invalid',
       },
+      ConflictError: {
+        description: 'This resource already exists',
+      },
       UnauthorizedError: {
         description: 'Access token is missing or invalid',
       },
