@@ -37,6 +37,7 @@
     "express": "^4.17.3",
     "express-openapi": "^10.1.0",
     "knex": "^1.0.7",
+    "openapi-response-validator": "^11.0.0",
     "pino": "^7.10.0",
     "pino-http": "^6.6.0",
     "swagger-ui-express": "^4.3.0"
