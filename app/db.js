@@ -16,7 +16,7 @@ const client = knex({
 })
 
 async function postProjectDb(reqBody) {
-  return client('projects').insert(reqBody).returning(['name', 'description'])
+  return client('projects').insert(reqBody).returning(['id', 'name', 'description'])
 }
 
 async function postProjectWithIdDb(reqBody) {

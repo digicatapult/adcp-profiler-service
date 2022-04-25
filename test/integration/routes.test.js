@@ -1,8 +1,9 @@
 const { describe, test, before } = require('mocha')
 const { expect } = require('chai')
 
+const { assertUuidV4 } = require('../helper/appHelper')
 const { createHttpServer } = require('../../app/server')
-const { getProjectByNameRoute, getProjectsRoute, createProjectRoute } = require('../helper/routeHelper')
+const { getProjectByIdRoute, getProjectsRoute, createProjectRoute } = require('../helper/routeHelper')
 const { cleanup } = require('../helper/seeds/project')
 
 describe('routes', function () {
@@ -17,12 +18,12 @@ describe('routes', function () {
     after(async function () {})
 
     test('POST Project', async function () {
-      const expectedResult = { name: 'item1', description: 'Test Item' }
+      const newProject = { name: 'item1', description: 'Test Item' }
 
-      const res = await createProjectRoute(expectedResult, app)
+      const res = await createProjectRoute(newProject, app)
 
       expect(res.status).to.equal(201)
-      expect(res.body).deep.equal(expectedResult)
+      assertUuidV4(res.body.id)
     })
 
     test('POST invalid project', async function () {
@@ -57,26 +58,21 @@ describe('routes', function () {
       expect(res.body).deep.equal(expectedResult)
     })
 
-    test.skip('GET projects by name', async function () {
-      const expectedResult = 'item2'
+    test('GET projects by id', async function () {
+      const newProject = { name: 'item2', description: 'Test Item' }
 
-      const seed = { name: 'item2', description: 'Test Item2' }
+      const tempRes = await createProjectRoute(newProject, app)
 
-      await createProjectRoute(seed, app)
-
-      const res = await getProjectByNameRoute('item2', app)
+      const res = await getProjectByIdRoute(tempRes.body.id, app)
 
       expect(res.status).to.equal(200)
-      expect(res.body).deep.equal(expectedResult)
+      assertUuidV4(res.body.id)
     })
 
-    test.skip('GET projects by name - 404', async function () {
-      const expectedResult = {}
-
-      const res = await getProjectByNameRoute(expectedResult, app)
-
+    test.skip('GET projects by id - 404', async function () {
+      const res = await getProjectByIdRoute('', app)
       expect(res.status).to.equal(404)
-      expect(res.body).deep.equal(expectedResult)
+      //expect(res.body).deep.equal(expectedResult)
     })
   })
 })

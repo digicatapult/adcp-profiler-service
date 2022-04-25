@@ -66,16 +66,16 @@ const apiDoc = {
         required: ['id', 'name', 'description'],
       },
 
-      GetProjectByName: {
+      GetProjectById: {
         description: 'GET project by name',
         type: 'object',
         properties: {
-          name: {
-            description: 'Project Name',
+          id: {
+            description: 'Project Id',
             type: 'string',
           },
         },
-        required: ['name'],
+        required: ['id'],
       },
     },
   },

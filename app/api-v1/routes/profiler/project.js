@@ -28,7 +28,7 @@ module.exports = function (apiService) {
   doc.GET.apiDoc = {
     summary: 'GET projects',
     responses: GET_PROJECTS_RESPONSES,
-    tags: ['profiler'],
+    tags: ['projects'],
   }
 
   doc.POST.apiDoc = {
@@ -52,7 +52,7 @@ module.exports = function (apiService) {
       },
     },
     responses: POST_PROJECT_RESPONSES,
-    tags: ['profiler'],
+    tags: ['projects'],
   }
 
   return doc
