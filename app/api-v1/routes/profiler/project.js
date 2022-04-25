@@ -1,10 +1,7 @@
 //Post new project
-const {
-  GET_PROJECTS_RESPONSES,
-  validateGetProjectResponse,
-  POST_PROJECT_RESPONSES,
-  validatePostProjectResponse,
-} = require('../../validators/getProjectsResponse')
+const { GET_PROJECTS_RESPONSES, validateGetProjectResponse } = require('../../validators/getProjectsResponse')
+
+const { POST_PROJECT_RESPONSES, validatePostProjectResponse } = require('../../validators/postProjectResponseValidator')
 
 module.exports = function (apiService) {
   const doc = {

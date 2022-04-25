@@ -5,8 +5,9 @@ async function getProjects() {
 }
 
 async function postProject(reqBody) {
-  const initialProjectSearch = await getProjectByNameDb(reqBody.name)
-  if (initialProjectSearch.length > 0) {
+  const itemsByIdResult = await getProjectByNameDb(reqBody.name)
+
+  if (itemsByIdResult.length > 0) {
     return { statusCode: 409, result: {} }
   } else {
     const createdProject = await postProjectDb(reqBody)
