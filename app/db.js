@@ -15,11 +15,21 @@ const client = knex({
   },
 })
 
-async function findProjectsDb() {
+async function postProjectDb(reqBody) {
+  return client('profiler').insert(reqBody).returning(['id', 'name', 'description'])
+}
+
+async function getProjectsDb() {
   return client('profiler').select(['id', 'name', 'description']).orderBy('id')
+}
+
+async function getProjectByNameDb(name) {
+  return client('profiler').select('name').where({ name })
 }
 
 module.exports = {
   client,
-  findProjectsDb,
+  getProjectsDb,
+  getProjectByNameDb,
+  postProjectDb,
 }

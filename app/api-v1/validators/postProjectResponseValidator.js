@@ -8,7 +8,7 @@ const POST_PROJECT_RESPONSES = {
     description: 'New Project Created',
     content: {
       'application/json': {
-        schema: apiDoc.components.schemas.Project,
+        schema: apiDoc.components.schemas.PostProject,
       },
     },
   },

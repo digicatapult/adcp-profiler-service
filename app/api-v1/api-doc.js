@@ -31,13 +31,9 @@ const apiDoc = {
     },
     schemas: {
       PostProject: {
-        description: 'Project schema',
+        description: 'POST project',
         type: 'object',
         properties: {
-          id: {
-            description: 'Project ID',
-            type: 'string',
-          },
           name: {
             description: 'Project Name',
             type: 'string',

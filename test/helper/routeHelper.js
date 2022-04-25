@@ -31,7 +31,39 @@ async function healthCheck({ app }) {
     })
 }
 
+async function getProjectsRoute({ app }) {
+  return request(app)
+    .get(`/${API_MAJOR_VERSION}/profiler/project`)
+    .set('Accept', 'application/json')
+    .set('Content-Type', 'application/json')
+    .then((response) => {
+      return response
+    })
+    .catch((err) => {
+      console.error(`getProjectsErr ${err}`)
+      return err
+    })
+}
+
+async function createProjectRoute(project, { app }) {
+  console.log('project', project)
+  return request(app)
+    .post(`/${API_MAJOR_VERSION}/profiler/project`)
+    .set('Accept', 'application/json')
+    .set('Content-Type', 'application/json')
+    .send(project)
+    .then((response) => {
+      return response
+    })
+    .catch((err) => {
+      console.error(`postProjectErr ${err}`)
+      return err
+    })
+}
+
 module.exports = {
   apiDocs,
   healthCheck,
+  getProjectsRoute,
+  createProjectRoute,
 }
