@@ -3,7 +3,7 @@ const { expect } = require('chai')
 
 const { createHttpServer } = require('../../app/server')
 const { getProjectByNameRoute, getProjectsRoute, createProjectRoute } = require('../helper/routeHelper')
-const { cleanup } = require('../helper/seeds/cleaner')
+const { cleanup } = require('../helper/seeds/project')
 
 describe('routes', function () {
   describe('Project routes', function () {

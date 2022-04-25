@@ -12,6 +12,10 @@ exports.up = async (knex) => {
     def.uuid('id').defaultTo(uuidGenerateV4())
     def.string('name', 50).unique().notNullable()
     def.string('description', 50).notNullable()
+    def.datetime('start_date')
+    def.datetime('end_date')
+    def.float('budget')
+    def.string('documents_path', 50)
     def.datetime('created_at').notNullable().default(now())
     def.datetime('updated_at').notNullable().default(now())
 
@@ -20,6 +24,6 @@ exports.up = async (knex) => {
 }
 
 exports.down = async (knex) => {
-  await knex.schema.dropTable('profiler')
+  await knex.schema.dropTable('projects')
   await knex.raw('DROP EXTENSION "uuid-ossp"')
 }
