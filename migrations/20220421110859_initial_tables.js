@@ -21,6 +21,16 @@ exports.up = async (knex) => {
 
     def.primary(['id'])
   })
+
+  await knex.schema.createTable('clients', (def) => {
+    def.uuid('id').defaultTo(uuidGenerateV4())
+    def.string('first_name', 50).notNullable()
+    def.string('last_name', 50).notNullable()
+    def.string('company', 50).notNullable()
+    def.string('role', 50).notNullable()
+
+    def.primary(['id'])
+  })
 }
 
 exports.down = async (knex) => {
