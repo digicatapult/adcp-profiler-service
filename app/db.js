@@ -16,7 +16,7 @@ const client = knex({
 })
 
 async function postProjectDb(reqBody) {
-  return client('profiler').insert(reqBody).returning(['id', 'name', 'description'])
+  return client('profiler').insert(reqBody).returning(['name', 'description'])
 }
 
 async function getProjectsDb() {
