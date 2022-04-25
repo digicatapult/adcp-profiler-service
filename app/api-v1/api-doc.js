@@ -46,6 +46,26 @@ const apiDoc = {
         required: ['name', 'description'],
       },
 
+      PostProjectWithID: {
+        description: 'POST project with ID',
+        type: 'object',
+        properties: {
+          id: {
+            description: 'Prroject ID',
+            type: 'string',
+          },
+          name: {
+            description: 'Project Name',
+            type: 'string',
+          },
+          description: {
+            description: 'Project Description',
+            type: 'string',
+          },
+        },
+        required: ['id', 'name', 'description'],
+      },
+
       GetProjectByName: {
         description: 'GET project by name',
         type: 'object',

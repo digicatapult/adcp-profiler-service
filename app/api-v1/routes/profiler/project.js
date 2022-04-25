@@ -1,22 +1,14 @@
-//Post new project
-const { GET_PROJECTS_RESPONSES, validateGetProjectResponse } = require('../../validators/getProjectsResponse')
+const { GET_PROJECTS_RESPONSES } = require('../../validators/getProjectsResponseValidator')
 
 const { POST_PROJECT_RESPONSES, validatePostProjectResponse } = require('../../validators/postProjectResponseValidator')
 
 module.exports = function (apiService) {
   const doc = {
     GET: async function (req, res) {
-      const result = await apiService.getProjects()
+      const { statusCode, result } = await apiService.getProjects()
 
-      const validationErrors = validateGetProjectResponse(400, result)
-
-      if (validationErrors) {
-        res.status(400).json(validationErrors)
-        return
-      } else {
-        res.status(200).json(result)
-        return
-      }
+      res.status(statusCode).json(result)
+      return
     },
     POST: async function (req, res) {
       const { statusCode, result } = await apiService.postProject(req.body)

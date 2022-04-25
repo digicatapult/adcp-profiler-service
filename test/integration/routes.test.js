@@ -57,7 +57,7 @@ describe('routes', function () {
       expect(res.body).deep.equal(expectedResult)
     })
 
-    test('GET projects by name', async function () {
+    test.skip('GET projects by name', async function () {
       const expectedResult = 'item2'
 
       const seed = { name: 'item2', description: 'Test Item2' }
@@ -70,7 +70,7 @@ describe('routes', function () {
       expect(res.body).deep.equal(expectedResult)
     })
 
-    test('GET projects by name - 404', async function () {
+    test.skip('GET projects by name - 404', async function () {
       const expectedResult = {}
 
       const res = await getProjectByNameRoute(expectedResult, app)
