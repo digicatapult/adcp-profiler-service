@@ -31,9 +31,21 @@ exports.up = async (knex) => {
 
     def.primary(['id'])
   })
+
+  await knex.schema.createTable('project_services', (def) => {
+    def.uuid('id').defaultTo(uuidGenerateV4())
+    def.uuid('project_id').notNullable()
+    def.uuid('client_id').notNullable()
+
+    def.primary('id')
+    def.foreign('project_id').references('id').on('projects').onDelete('CASCADE').onUpdate('CASCADE')
+    def.foreign('client_id').references('id').on('clients').onDelete('CASCADE').onUpdate('CASCADE')
+  })
 }
 
 exports.down = async (knex) => {
   await knex.schema.dropTable('projects')
+  await knex.schema.dropTable('clients')
+  await knex.schema.dropTable('project_services')
   await knex.raw('DROP EXTENSION "uuid-ossp"')
 }
