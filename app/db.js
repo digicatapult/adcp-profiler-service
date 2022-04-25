@@ -20,7 +20,7 @@ async function postProjectDb(reqBody) {
 }
 
 async function getProjectsDb() {
-  return client('profiler').select(['id', 'name', 'description']).orderBy('id')
+  return client('profiler').select(['name', 'description'])
 }
 
 async function getProjectByNameDb(name) {

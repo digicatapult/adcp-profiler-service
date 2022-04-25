@@ -2,7 +2,7 @@ const { describe, test, before } = require('mocha')
 const { expect } = require('chai')
 
 const { createHttpServer } = require('../../app/server')
-const { createProjectRoute } = require('../helper/routeHelper')
+const { getProjectByNameRoute, getProjectsRoute, createProjectRoute } = require('../helper/routeHelper')
 const { cleanup } = require('../helper/cleaner')
 
 describe('routes', function () {
@@ -41,6 +41,42 @@ describe('routes', function () {
 
       expect(res.status).to.equal(409)
       expect(res.body).deep.equal({})
+    })
+
+    test('GET projects', async function () {
+      const expectedResult = [
+        {
+          name: 'item1',
+          description: 'Test Item',
+        },
+      ]
+
+      const res = await getProjectsRoute(app)
+
+      expect(res.status).to.equal(200)
+      expect(res.body).deep.equal(expectedResult)
+    })
+
+    test('GET projects by name', async function () {
+      const expectedResult = 'item2'
+
+      const seed = { name: 'item2', description: 'Test Item2' }
+
+      await createProjectRoute(seed, app)
+
+      const res = await getProjectByNameRoute('item2', app)
+
+      expect(res.status).to.equal(200)
+      expect(res.body).deep.equal(expectedResult)
+    })
+
+    test('GET projects by name - 404', async function () {
+      const expectedResult = {}
+
+      const res = await getProjectByNameRoute(expectedResult, app)
+
+      expect(res.status).to.equal(404)
+      expect(res.body).deep.equal(expectedResult)
     })
   })
 })

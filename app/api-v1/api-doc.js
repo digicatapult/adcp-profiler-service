@@ -45,6 +45,18 @@ const apiDoc = {
         },
         required: ['name', 'description'],
       },
+
+      GetProjectByName: {
+        description: 'GET project by name',
+        type: 'object',
+        properties: {
+          name: {
+            description: 'Project Name',
+            type: 'string',
+          },
+        },
+        required: ['name'],
+      },
     },
   },
   paths: {},

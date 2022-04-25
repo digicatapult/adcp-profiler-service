@@ -4,6 +4,17 @@ async function getProjects() {
   return getProjectsDb()
 }
 
+async function getProjectByName(name) {
+  const nameResults = await getProjectByNameDb(name)
+
+  if (nameResults.length === 0) {
+    return { statusCode: 404, result: {} }
+  } else {
+    const result = nameResults.length === 1 ? nameResults[0] : {}
+    return { statusCode: 200, result }
+  }
+}
+
 async function postProject(reqBody) {
   const itemsByIdResult = await getProjectByNameDb(reqBody.name)
 
@@ -21,4 +32,5 @@ async function postProject(reqBody) {
 module.exports = {
   getProjects,
   postProject,
+  getProjectByName,
 }

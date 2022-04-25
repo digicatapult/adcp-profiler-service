@@ -1,4 +1,4 @@
-const { client } = require('../../app/db')
+const { client } = require('../../../app/db')
 
 const cleanup = async () => {
   await client('profiler').del()

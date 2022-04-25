@@ -22,6 +22,7 @@ module.exports = function (apiService) {
       const { statusCode, result } = await apiService.postProject(req.body)
 
       const validationErrors = validatePostProjectResponse(statusCode, result)
+
       if (validationErrors) {
         res.status(statusCode).json(validationErrors)
         return
