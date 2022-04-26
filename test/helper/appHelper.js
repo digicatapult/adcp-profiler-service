@@ -21,8 +21,17 @@ const assertPostProjectParams = (actualResult, expectedResult) => {
   expect(actualResult.documentsPath).to.equal(expectedResult.documentsPath)
 }
 
+const assertGetProjects = (actualResult, expectedResult) => {
+  expect(actualResult.length).to.equal(expectedResult.length)
+
+  actualResult.forEach((item, index) => {
+    assertPostProjectParams(item, expectedResult[index])
+  })
+}
+
 module.exports = {
   assertUuidV4,
   assertPostProjectParams,
   assertPostProjectRequiredParams,
+  assertGetProjects,
 }

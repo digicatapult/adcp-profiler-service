@@ -1,7 +1,12 @@
 const { describe, test, before } = require('mocha')
 const { expect } = require('chai')
 
-const { assertUuidV4, assertPostProjectParams, assertPostProjectRequiredParams } = require('../helper/appHelper')
+const {
+  assertUuidV4,
+  assertPostProjectParams,
+  assertPostProjectRequiredParams,
+  assertGetProjects,
+} = require('../helper/appHelper')
 const { createHttpServer } = require('../../app/server')
 const { getProjectByIdRoute, getProjectsRoute, createProjectRoute } = require('../helper/routeHelper')
 const { seed } = require('../helper/seeds/project')
@@ -21,7 +26,7 @@ describe('routes', function () {
 
     after(async function () {})
 
-    test.only('POST Project with only required fields', async function () {
+    test('POST Project with only required fields', async function () {
       const newProject = {
         clientId,
         name: 'item1',
@@ -36,6 +41,7 @@ describe('routes', function () {
 
     test('POST Project with all fields', async function () {
       const newProject = {
+        clientId,
         name: 'item2',
         description: 'Test Item',
         startDate: null,
@@ -48,6 +54,38 @@ describe('routes', function () {
 
       expect(response.status).to.equal(201)
       assertPostProjectParams(response.body, newProject)
+    })
+
+    test('GET projects', async function () {
+      const expectedResult = [
+        {
+          clientId,
+          name: 'item2',
+          description: 'Test Item',
+          startDate: null,
+          endDate: null,
+          budget: null,
+          documentsPath: null,
+        },
+      ]
+
+      const response = await getProjectsRoute(app)
+
+      expect(response.status).to.equal(200)
+
+      assertGetProjects(response.body, expectedResult)
+    })
+
+    test('POST Project missing client ID', async function () {
+      const newProject = {
+        name: 'item1',
+        description: 'Test Item',
+      }
+
+      const response = await createProjectRoute(newProject, app)
+
+      expect(response.status).to.equal(400)
+      expect(response.body).deep.equal({})
     })
 
     test('POST invalid project', async function () {
@@ -75,21 +113,7 @@ describe('routes', function () {
       expect(response.body).deep.equal({})
     })
 
-    test('GET projects', async function () {
-      const expectedResult = [
-        {
-          name: 'item1',
-          description: 'Test Item',
-        },
-      ]
-
-      const response = await getProjectsRoute(app)
-
-      expect(response.status).to.equal(200)
-      expect(response.body).deep.equal(expectedResult)
-    })
-
-    test('GET projects by id', async function () {
+    test.skip('GET projects by id', async function () {
       const newProject = { name: 'item2', description: 'Test Item' }
 
       const tempRes = await createProjectRoute(newProject, app)

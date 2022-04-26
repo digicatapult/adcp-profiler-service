@@ -40,7 +40,16 @@ async function postProjectDb(reqBody) {
 }
 
 async function getProjectsDb() {
-  return client('projects').select('*')
+  return client('projects AS p').select([
+    'p.id',
+    'p.client_id AS clientId',
+    'p.name',
+    'p.description',
+    'p.start_date AS startDate',
+    'p.end_date AS endDate',
+    'p.budget',
+    'p.documents_path AS documentsPath',
+  ])
 }
 
 async function getProjectByNameDb(name) {

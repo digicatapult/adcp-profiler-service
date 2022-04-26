@@ -3,27 +3,27 @@ const OpenAPIResponseValidator = require('openapi-response-validator').default
 const apiDocResponses = require('../api-doc-responses')
 const apiDoc = require('../api-doc')
 
-const POST_PROJECT_RESPONSES = {
+const PUT_PROJECT_RESPONSES = {
   201: {
-    description: 'New Project Created',
+    description: 'Update Project',
     content: {
       'application/json': {
-        schema: apiDoc.components.schemas.GetProject,
+        schema: apiDoc.components.schemas.PutProject,
       },
     },
   },
   400: apiDocResponses['400'],
-  409: apiDocResponses['409'],
+  404: apiDocResponses['404'],
   default: apiDocResponses.default,
 }
 
-const validatePostProjectResponse = (statusCode, result) => {
-  const responseValidator = new OpenAPIResponseValidator({ responses: POST_PROJECT_RESPONSES })
+const validatePutProjectResponse = (statusCode, result) => {
+  const responseValidator = new OpenAPIResponseValidator({ responses: PUT_PROJECT_RESPONSES })
 
   return responseValidator.validateResponse(statusCode, result)
 }
 
 module.exports = {
-  POST_PROJECT_RESPONSES,
-  validatePostProjectResponse,
+  PUT_PROJECT_RESPONSES,
+  validatePutProjectResponse,
 }

@@ -37,16 +37,7 @@ module.exports = function (apiService) {
       content: {
         'application/json': {
           schema: {
-            type: 'object',
-            properties: {
-              name: {
-                type: 'string',
-              },
-              description: {
-                type: 'string',
-              },
-            },
-            required: ['name', 'description'],
+            $ref: '#/components/schemas/PostProject',
           },
         },
       },

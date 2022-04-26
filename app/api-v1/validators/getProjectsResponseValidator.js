@@ -6,7 +6,14 @@ const GET_PROJECTS_RESPONSES = {
   200: {
     description: 'Returned projects',
     content: {
-      'application/json': {},
+      'application/json': {
+        schema: {
+          type: 'array',
+          items: {
+            $ref: '#/components/schemas/GetProject',
+          },
+        },
+      },
     },
   },
   default: apiDocResponses.default,

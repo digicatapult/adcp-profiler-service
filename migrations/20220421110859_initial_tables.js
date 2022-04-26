@@ -37,11 +37,9 @@ exports.up = async (knex) => {
   await knex.schema.createTable('project_services', (def) => {
     def.uuid('id').defaultTo(uuidGenerateV4())
     def.uuid('project_id').notNullable()
-    def.uuid('client_id').notNullable()
 
     def.primary('id')
     def.foreign('project_id').references('id').on('projects').onDelete('CASCADE').onUpdate('CASCADE')
-    def.foreign('client_id').references('id').on('clients').onDelete('CASCADE').onUpdate('CASCADE')
   })
 }
 
