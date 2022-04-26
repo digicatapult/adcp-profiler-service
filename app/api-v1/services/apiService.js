@@ -4,7 +4,7 @@ const {
   postProjectDb,
   findProjectByIdDb,
   deleteProjectByIdDb,
-  postProjectWithIdDb,
+  updateProjectDb,
 } = require('../../db')
 
 async function getProjects() {
@@ -49,25 +49,26 @@ async function postProject(reqBody) {
   }
 }
 
-async function postProjectWithID(reqBody) {
-  const itemsByIdResult = await findProjectByIdDb(reqBody.id)
+async function putProject(id, reqBody) {
+  const { result: projectByIdResult, statusCode: projectByIdStatusCode } = await findProjectByIdDb(id)
 
-  if (itemsByIdResult.length > 0) {
-    return { statusCode: 409, result: {} }
+  if (projectByIdStatusCode === 404) {
+    return { statusCode: 404, result: {} }
+  } else if (projectByIdResult.length === 1) {
+    const updateItemResult = await updateProjectDb(id, reqBody)
+    const result = updateItemResult[0]
+
+    return { statusCode: 200, result }
   } else {
-    const createdProject = await postProjectWithIdDb(reqBody)
-
-    const result = createdProject.length === 1 ? createdProject[0] : {}
-
-    return { statusCode: 201, result }
+    return { statusCode: 409, result: {} }
   }
 }
 
 async function deleteProjectById(id) {
-  const { statusCode: itemsByIdStatusCode } = await findProjectByIdDb(id)
+  const { statusCode: projectByIdStatusCode } = await findProjectByIdDb(id)
 
-  if (itemsByIdStatusCode === 404) {
-    return { statusCode: itemsByIdStatusCode, result: {} }
+  if (projectByIdStatusCode === 404) {
+    return { statusCode: projectByIdStatusCode, result: {} }
   } else {
     await deleteProjectByIdDb(id)
 
@@ -81,5 +82,5 @@ module.exports = {
   getProjectByName,
   getProjectById,
   deleteProjectById,
-  postProjectWithID,
+  putProject,
 }

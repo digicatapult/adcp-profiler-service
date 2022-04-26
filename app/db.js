@@ -1,6 +1,7 @@
 const knex = require('knex')
 const env = require('./env')
 
+const now = () => knex.fn.now()
 const client = knex({
   client: 'pg',
   migrations: {
@@ -16,15 +17,30 @@ const client = knex({
 })
 
 async function postProjectDb(reqBody) {
-  return client('projects').insert(reqBody).returning(['id', 'name', 'description'])
-}
-
-async function postProjectWithIdDb(reqBody) {
-  return client('projects').insert(reqBody).returning(['id', 'name', 'description'])
+  return client('projects')
+    .insert({
+      client_id: reqBody.clientId,
+      name: reqBody.name,
+      description: reqBody.description,
+      start_date: reqBody.startDate,
+      end_date: reqBody.endDate,
+      budget: reqBody.budget,
+      documents_path: reqBody.documentsPath,
+    })
+    .returning([
+      'id',
+      'client_id AS clientId',
+      'name',
+      'description',
+      'start_date AS startDate',
+      'end_date AS endDate',
+      'budget',
+      'documents_path AS documentsPath',
+    ])
 }
 
 async function getProjectsDb() {
-  return client('projects').select(['name', 'description'])
+  return client('projects').select('*')
 }
 
 async function getProjectByNameDb(name) {
@@ -39,6 +55,32 @@ async function deleteProjectByIdDb(id) {
   return client('projects').select('id').where({ id }).del()
 }
 
+async function updateProjectDb(id, reqBody) {
+  return client('projects')
+    .select('id')
+    .where({ id })
+    .update({
+      client_id: reqBody.clientId,
+      name: reqBody.name,
+      description: reqBody.description,
+      start_date: reqBody.startDate,
+      end_date: reqBody.endDate,
+      budget: reqBody.budget,
+      documents_path: reqBody.documentsPath,
+      updated_at: now(),
+    })
+    .returning([
+      'id',
+      'client_id AS clientId',
+      'name',
+      'description',
+      'start_date AS startDate',
+      'end_date AS endDate',
+      'budget',
+      'documents_path AS documentsPath',
+    ])
+}
+
 module.exports = {
   client,
   getProjectsDb,
@@ -46,5 +88,5 @@ module.exports = {
   postProjectDb,
   findProjectByIdDb,
   deleteProjectByIdDb,
-  postProjectWithIdDb,
+  updateProjectDb,
 }

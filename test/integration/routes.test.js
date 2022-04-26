@@ -1,47 +1,78 @@
 const { describe, test, before } = require('mocha')
 const { expect } = require('chai')
 
-const { assertUuidV4 } = require('../helper/appHelper')
+const { assertUuidV4, assertPostProjectParams, assertPostProjectRequiredParams } = require('../helper/appHelper')
 const { createHttpServer } = require('../../app/server')
 const { getProjectByIdRoute, getProjectsRoute, createProjectRoute } = require('../helper/routeHelper')
-const { cleanup } = require('../helper/seeds/project')
+const { seed } = require('../helper/seeds/project')
 
 describe('routes', function () {
   describe('Project routes', function () {
     let app
+    let clientId
+
     before(async function () {
-      await cleanup()
+      //await cleanup()
+      await seed()
 
       app = await createHttpServer()
+      clientId = 'c7b9e848-e2bb-456d-8eaa-129c1cb3580c'
     })
 
     after(async function () {})
 
-    test('POST Project', async function () {
-      const newProject = { name: 'item1', description: 'Test Item' }
+    test.only('POST Project with only required fields', async function () {
+      const newProject = {
+        clientId,
+        name: 'item1',
+        description: 'Test Item',
+      }
 
-      const res = await createProjectRoute(newProject, app)
+      const response = await createProjectRoute(newProject, app)
 
-      expect(res.status).to.equal(201)
-      assertUuidV4(res.body.id)
+      expect(response.status).to.equal(201)
+      assertPostProjectRequiredParams(response.body, newProject)
+    })
+
+    test('POST Project with all fields', async function () {
+      const newProject = {
+        name: 'item2',
+        description: 'Test Item',
+        startDate: null,
+        endDate: null,
+        budget: null,
+        documentsPath: null,
+      }
+
+      const response = await createProjectRoute(newProject, app)
+
+      expect(response.status).to.equal(201)
+      assertPostProjectParams(response.body, newProject)
     })
 
     test('POST invalid project', async function () {
       const expectedResult = {}
 
-      const res = await createProjectRoute(expectedResult, app)
+      const response = await createProjectRoute(expectedResult, app)
 
-      expect(res.status).to.equal(400)
-      expect(res.body).deep.equal(expectedResult)
+      expect(response.status).to.equal(400)
+      expect(response.body).deep.equal(expectedResult)
     })
 
     test('POST duplicate project', async function () {
-      const thing = { name: 'item1', description: 'Test Item' }
+      const thing = {
+        name: 'item1',
+        description: 'Test Item',
+        startDate: null,
+        endDate: null,
+        budget: null,
+        documentsPath: null,
+      }
 
-      const res = await createProjectRoute(thing, app)
+      const response = await createProjectRoute(thing, app)
 
-      expect(res.status).to.equal(409)
-      expect(res.body).deep.equal({})
+      expect(response.status).to.equal(409)
+      expect(response.body).deep.equal({})
     })
 
     test('GET projects', async function () {
@@ -52,10 +83,10 @@ describe('routes', function () {
         },
       ]
 
-      const res = await getProjectsRoute(app)
+      const response = await getProjectsRoute(app)
 
-      expect(res.status).to.equal(200)
-      expect(res.body).deep.equal(expectedResult)
+      expect(response.status).to.equal(200)
+      expect(response.body).deep.equal(expectedResult)
     })
 
     test('GET projects by id', async function () {
@@ -63,16 +94,10 @@ describe('routes', function () {
 
       const tempRes = await createProjectRoute(newProject, app)
 
-      const res = await getProjectByIdRoute(tempRes.body.id, app)
+      const response = await getProjectByIdRoute(tempRes.body.id, app)
 
-      expect(res.status).to.equal(200)
-      assertUuidV4(res.body.id)
-    })
-
-    test.skip('GET projects by id - 404', async function () {
-      const res = await getProjectByIdRoute('', app)
-      expect(res.status).to.equal(404)
-      //expect(res.body).deep.equal(expectedResult)
+      expect(response.status).to.equal(200)
+      assertUuidV4(response.body.id)
     })
   })
 })
