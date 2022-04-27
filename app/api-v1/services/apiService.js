@@ -7,8 +7,6 @@ const {
   updateProjectDb,
 } = require('../../db')
 
-const { updateProjectObject } = require('../../util/appUtil')
-
 async function getProjects() {
   const result = await getProjectsDb()
 
@@ -52,14 +50,14 @@ async function postProject(reqBody) {
 }
 
 async function putProject(id, reqBody) {
+  console.log('APISERVICE 1', id, reqBody)
   const projectByIdResult = await getProjectByIdDb(id)
-
-  const updatedProject = updateProjectObject(reqBody)
+  console.log('APISERVICE 2', projectByIdResult)
 
   if (projectByIdResult.length === 0) {
     return { statusCode: 404, result: {} }
   } else {
-    const result = await updateProjectDb(id, updatedProject)
+    const result = await updateProjectDb(id, reqBody)
     return { statusCode: 200, result }
   }
 }

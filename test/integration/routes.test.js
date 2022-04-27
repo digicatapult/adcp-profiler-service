@@ -1,5 +1,6 @@
 const { describe, test, before } = require('mocha')
 const { expect } = require('chai')
+const moment = require('moment')
 
 const {
   assertUuidV4,
@@ -34,19 +35,19 @@ describe('routes', function () {
 
     after(async function () {})
 
-    test('POST Project with all fields', async function () {
+    test.only('POST Project with all fields', async function () {
       const newProject = {
         clientId,
         name: 'item2',
         description: 'Test Item',
-        startDate: null,
-        endDate: null,
-        budget: null,
-        documentsPath: null,
+        startDate: new Date().toISOString(),
+        budget: 30000,
+        endDate: new Date().toISOString(),
+        documentsPath: 'http://path.com',
       }
-
+      console.log('new project', newProject)
       const response = await createProjectRoute(newProject, app)
-
+      console.log('response body', response.body)
       expect(response.status).to.equal(201)
       assertPostProjectParams(response.body, newProject)
     })
@@ -131,19 +132,20 @@ describe('routes', function () {
 
       const firstResponse = await createProjectRoute(newProject, app)
 
-      expect(firstResponse.body.name).to.equal('PUT item')
-
       const updatedProject = {
         clientId,
         name: 'PUT item updated',
         description: firstResponse.body.description,
         startDate: new Date().toISOString(),
         budget: 30000,
+        endDate: new Date().toISOString(),
+        documentsPath: 'http://path.com',
       }
+
       const response = await putProjectRoute(firstResponse.body.id, updatedProject, app)
 
       expect(response.status).to.equal(200)
-      expect(response.body[0].name).to.equal('PUT item updated')
+      assertPostProjectParams(response.body[0], updatedProject)
     })
 
     test('PUT project with incorrect id', async function () {
@@ -173,6 +175,35 @@ describe('routes', function () {
       expect(response.status).to.equal(400)
       expect(response.body).deep.equal({})
     })
+
+    // test('PUT project with multiple field updates', async function () {
+    //   const newProject = {
+    //     clientId,
+    //     name: 'PUT item',
+    //     description: 'Test PUT Item',
+    //     startDate: new Date().toISOString(),
+    //     endDate: new Date().toISOString(),
+    //     budget: 23000.5,
+    //     documentsPath: 'http://project.com',
+    //   }
+
+    // //   const firstResponse = await createProjectRoute(newProject, app)
+    // //   console.log('First Response', firstResponse.body)
+
+    //   const updatedProject = {
+    //     clientId,
+    //     name: 'PUT item updated',
+    //     description: 'updatd PUT Item',
+    //     // startDate: moment().subtract(2, 'day').toISOString(),
+    //     // budget: 950.99,
+    //     // endDate: moment().subtract(1, 'day').toISOString(),
+    //     // documentsPath: 'http://updated.com',
+    //   }
+    //   const response = await putProjectRoute(firstResponse.body.id, updatedProject, app)
+
+    //   expect(response.status).to.equal(200)
+    //   assertPostProjectParams(response.body[0], updatedProject)
+    // })
 
     test('DELETE project by id', async function () {
       const newProject = { clientId, name: 'DELETE project', description: 'Test Item' }

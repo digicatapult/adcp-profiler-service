@@ -81,8 +81,6 @@ async function putProjectRoute(id, project, { app }) {
     .set('Content-Type', 'application/json')
     .send(project)
     .then((response) => {
-      console.log('project', project)
-      console.log('response', response)
       return response
     })
     .catch((err) => {

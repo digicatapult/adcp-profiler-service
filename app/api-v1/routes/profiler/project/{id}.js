@@ -32,6 +32,9 @@ module.exports = function (apiService) {
     },
     PUT: async function (req, res) {
       const { id } = req.params
+
+      console.log('PUT ROUTE', id)
+
       const { statusCode, result } = await apiService.putProject(id, req.body)
 
       const validationErrors = validatePutProjectResponse(statusCode, result)

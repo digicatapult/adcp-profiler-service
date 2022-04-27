@@ -52,18 +52,18 @@ const apiDoc = {
             description: 'Project Description',
             type: 'string',
           },
-          startDate: {
-            description: 'Project start date',
-            type: 'string',
-            format: 'date-time',
-            nullable: true,
-          },
-          endDate: {
-            description: 'Project end date',
-            type: 'string',
-            format: 'date-time',
-            nullable: true,
-          },
+          // startDate: {
+          //   description: 'Project start date',
+          //   type: 'string',
+          //   format: 'date-time',
+          //   //nullable: true,
+          // },
+          // endDate: {
+          //   description: 'Project end date',
+          //   type: 'string',
+          //   format: 'date-time',
+          //   //nullable: true,
+          // },
           budget: {
             description: 'Project budget',
             type: 'number',
@@ -94,18 +94,18 @@ const apiDoc = {
             description: 'Project Description',
             type: 'string',
           },
-          startDate: {
-            description: 'Project start date',
-            type: 'string',
-            format: 'date-time',
-            nullable: true,
-          },
-          endDate: {
-            description: 'Project end date',
-            type: 'string',
-            format: 'date-time',
-            nullable: true,
-          },
+          // startDate: {
+          //   description: 'Project start date',
+          //   type: 'string',
+          //   format: 'date-time',
+          //   //nullable: true,
+          // },
+          // endDate: {
+          //   description: 'Project end date',
+          //   type: 'string',
+          //   format: 'date-time',
+          //   //nullable: true,
+          // },
           budget: {
             description: 'Project budget',
             type: 'number',
