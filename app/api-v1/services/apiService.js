@@ -2,10 +2,12 @@ const {
   getProjectsDb,
   getProjectByNameDb,
   postProjectDb,
-  findProjectByIdDb,
+  getProjectByIdDb,
   deleteProjectByIdDb,
   updateProjectDb,
 } = require('../../db')
+
+const { updateProjectObject } = require('../../util/appUtil')
 
 async function getProjects() {
   const result = await getProjectsDb()
@@ -25,7 +27,7 @@ async function getProjectByName(name) {
 }
 
 async function getProjectById(id) {
-  const itemsByIdResult = await findProjectByIdDb(id)
+  const itemsByIdResult = await getProjectByIdDb(id)
 
   if (itemsByIdResult.length === 0) {
     return { statusCode: 404, result: {} }
@@ -50,25 +52,23 @@ async function postProject(reqBody) {
 }
 
 async function putProject(id, reqBody) {
-  const { result: projectByIdResult, statusCode: projectByIdStatusCode } = await findProjectByIdDb(id)
+  const projectByIdResult = await getProjectByIdDb(id)
 
-  if (projectByIdStatusCode === 404) {
+  const updatedProject = updateProjectObject(reqBody)
+
+  if (projectByIdResult.length === 0) {
     return { statusCode: 404, result: {} }
-  } else if (projectByIdResult.length === 1) {
-    const updateItemResult = await updateProjectDb(id, reqBody)
-    const result = updateItemResult[0]
-
-    return { statusCode: 200, result }
   } else {
-    return { statusCode: 409, result: {} }
+    const result = await updateProjectDb(id, updatedProject)
+    return { statusCode: 200, result }
   }
 }
 
 async function deleteProjectById(id) {
-  const { statusCode: projectByIdStatusCode } = await findProjectByIdDb(id)
+  const result = await getProjectByIdDb(id)
 
-  if (projectByIdStatusCode === 404) {
-    return { statusCode: projectByIdStatusCode, result: {} }
+  if (result.length === 0) {
+    return { statusCode: 404, result: {} }
   } else {
     await deleteProjectByIdDb(id)
 

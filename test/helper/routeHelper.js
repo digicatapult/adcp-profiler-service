@@ -74,10 +74,43 @@ async function createProjectRoute(project, { app }) {
     })
 }
 
+async function putProjectRoute(id, project, { app }) {
+  return request(app)
+    .put(`/${API_MAJOR_VERSION}/profiler/project/${id}`)
+    .set('Accept', 'application/json')
+    .set('Content-Type', 'application/json')
+    .send(project)
+    .then((response) => {
+      console.log('project', project)
+      console.log('response', response)
+      return response
+    })
+    .catch((err) => {
+      console.error(`putProjectErr ${err}`)
+      return err
+    })
+}
+
+async function deleteProjectByIdRoute(id, { app }) {
+  return request(app)
+    .delete(`/${API_MAJOR_VERSION}/profiler/project/${id}`)
+    .set('Accept', 'application/json')
+    .set('Content-Type', 'application/json')
+    .then((response) => {
+      return response
+    })
+    .catch((err) => {
+      console.error(`getProjectsErr ${err}`)
+      return err
+    })
+}
+
 module.exports = {
   apiDocs,
   healthCheck,
   getProjectsRoute,
   createProjectRoute,
   getProjectByIdRoute,
+  putProjectRoute,
+  deleteProjectByIdRoute,
 }
