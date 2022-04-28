@@ -19,6 +19,9 @@ const apiDoc = {
       BadRequestError: {
         description: 'The request is invalid',
       },
+      ConflictError: {
+        description: 'This resource already exists',
+      },
       UnauthorizedError: {
         description: 'Access token is missing or invalid',
       },
@@ -26,8 +29,97 @@ const apiDoc = {
         description: 'An error occurred',
       },
     },
-    schemas: {},
-    securitySchemes: {},
+    schemas: {
+      GetProject: {
+        description: 'GET project',
+        type: 'object',
+        properties: {
+          id: {
+            description: 'Project id',
+            type: 'string',
+            format: 'uuid',
+          },
+          clientId: {
+            description: 'Project client id',
+            type: 'string',
+            format: 'uuid',
+          },
+          name: {
+            description: 'Project Name',
+            type: 'string',
+          },
+          description: {
+            description: 'Project Description',
+            type: 'string',
+          },
+          startDate: {
+            description: 'Project start date',
+            type: 'object',
+            format: 'startDate',
+            nullable: true,
+          },
+          endDate: {
+            description: 'Project end date',
+            type: 'object',
+            format: 'endDate',
+            nullable: true,
+          },
+          budget: {
+            description: 'Project budget',
+            type: 'number',
+            nullable: true,
+          },
+          documentUrl: {
+            description: 'Project document url',
+            type: 'string',
+            nullable: true,
+          },
+        },
+        required: ['id', 'clientId', 'name', 'description'],
+      },
+      PostAndPutProject: {
+        description: 'POST/PUT project',
+        type: 'object',
+        properties: {
+          clientId: {
+            description: 'Project client id',
+            type: 'string',
+            format: 'uuid',
+          },
+          name: {
+            description: 'Project Name',
+            type: 'string',
+          },
+          description: {
+            description: 'Project Description',
+            type: 'string',
+          },
+          startDate: {
+            description: 'Project start date',
+            type: 'string',
+            format: 'date-time',
+            nullable: true,
+          },
+          endDate: {
+            description: 'Project end date',
+            type: 'string',
+            format: 'date-time',
+            nullable: true,
+          },
+          budget: {
+            description: 'Project budget',
+            type: 'number',
+            nullable: true,
+          },
+          documentUrl: {
+            description: 'Project document url',
+            type: 'string',
+            nullable: true,
+          },
+        },
+        required: ['clientId', 'name', 'description'],
+      },
+    },
   },
   paths: {},
 }
