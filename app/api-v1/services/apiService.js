@@ -16,26 +16,22 @@ async function getProjects() {
 async function getProjectById(id) {
   const projectsByIdResult = await getProjectByIdDb(id)
 
-  if (projectsByIdResult.length === 0) {
-    return { statusCode: 404, result: {} }
+  if (projectsByIdResult.length === 1) {
+    return { statusCode: 200, result: projectsByIdResult[0] }
   } else {
-    const result = projectsByIdResult.length === 1 ? projectsByIdResult[0] : {}
-
-    return { statusCode: 200, result }
+    return { statusCode: 404, result: {} }
   }
 }
 
 async function postProject(reqBody) {
-  const projectByIdResult = await getProjectByNameDb(reqBody.name)
+  const projectByNameResult = await getProjectByNameDb(reqBody.name)
 
-  if (projectByIdResult.length > 0) {
-    return { statusCode: 409, result: {} }
-  } else {
+  if (projectByNameResult.length === 0) {
     const createdProject = await postProjectDb(reqBody)
 
-    const result = createdProject.length === 1 ? createdProject[0] : {}
-
-    return { statusCode: 201, result }
+    return { statusCode: 201, result: createdProject[0] }
+  } else {
+    return { statusCode: 409, result: {} }
   }
 }
 
@@ -56,12 +52,12 @@ async function putProject(id, reqBody) {
 async function deleteProjectById(id) {
   const result = await getProjectByIdDb(id)
 
-  if (result.length === 0) {
-    return { statusCode: 404, result: {} }
-  } else {
+  if (result.length === 1) {
     await deleteProjectByIdDb(id)
 
     return { statusCode: 204, result: {} }
+  } else {
+    return { statusCode: 404, result: {} }
   }
 }
 
