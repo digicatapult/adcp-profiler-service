@@ -36,7 +36,7 @@ module.exports = function (apiService) {
       content: {
         'application/json': {
           schema: {
-            $ref: '#/components/schemas/PostProject',
+            $ref: '#/components/schemas/PostAndPutProject',
           },
         },
       },

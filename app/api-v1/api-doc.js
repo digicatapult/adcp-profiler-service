@@ -77,50 +77,8 @@ const apiDoc = {
         },
         required: ['id', 'clientId', 'name', 'description'],
       },
-      PostProject: {
-        description: 'POST project',
-        type: 'object',
-        properties: {
-          clientId: {
-            description: 'Project client id',
-            type: 'string',
-            format: 'uuid',
-          },
-          name: {
-            description: 'Project Name',
-            type: 'string',
-          },
-          description: {
-            description: 'Project Description',
-            type: 'string',
-          },
-          startDate: {
-            description: 'Project start date',
-            type: 'string',
-            format: 'date-time',
-            nullable: true,
-          },
-          endDate: {
-            description: 'Project end date',
-            type: 'string',
-            format: 'date-time',
-            nullable: true,
-          },
-          budget: {
-            description: 'Project budget',
-            type: 'number',
-            nullable: true,
-          },
-          documentsPath: {
-            description: 'Project documents path',
-            type: 'string',
-            nullable: true,
-          },
-        },
-        required: ['clientId', 'name', 'description'],
-      },
-      PutProject: {
-        description: 'PUT project',
+      PostAndPutProject: {
+        description: 'POST/PUT project',
         type: 'object',
         properties: {
           clientId: {
