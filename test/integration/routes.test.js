@@ -108,7 +108,7 @@ describe('routes', function () {
       assertPostProjectRequiredParams(response.body, expectedResult)
     })
 
-    test('GET project by id with invalid path parameter', async function () {
+    test('GET project by id with invalid path id parameter', async function () {
       const response = await getProjectByIdRoute(invalidId, app)
 
       expect(response.status).to.equal(404)
@@ -124,6 +124,17 @@ describe('routes', function () {
 
       expect(response.status).to.equal(200)
       assertPostProjectRequiredParams(response.body, expectedResult)
+    })
+
+    test('PUT project with existing name', async function () {
+      const project = createProject({ clientId, name: 'Project 1', description: 'Project 1 description' })
+      const projectUpdate = createProject({ clientId, name: 'Project 1', description: 'Project 2 description' })
+
+      const projectResponse = await postProjectRoute(project, app)
+      const response = await putProjectRoute(projectResponse.body.id, projectUpdate, app)
+
+      expect(response.status).to.equal(409)
+      expect(response.body).to.deep.equal({})
     })
 
     test('PUT project with invalid id path parameter', async function () {

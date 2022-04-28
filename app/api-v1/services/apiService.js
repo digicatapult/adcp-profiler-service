@@ -13,17 +13,6 @@ async function getProjects() {
   return { statusCode: 200, result }
 }
 
-async function getProjectByName(name) {
-  const nameResults = await getProjectByNameDb(name)
-
-  if (nameResults.length === 0) {
-    return { statusCode: 404, result: {} }
-  } else {
-    const result = nameResults.length === 1 ? nameResults[0] : {}
-    return { statusCode: 200, result }
-  }
-}
-
 async function getProjectById(id) {
   const projectsByIdResult = await getProjectByIdDb(id)
 
@@ -37,9 +26,9 @@ async function getProjectById(id) {
 }
 
 async function postProject(reqBody) {
-  const itemsByIdResult = await getProjectByNameDb(reqBody.name)
+  const projectByIdResult = await getProjectByNameDb(reqBody.name)
 
-  if (itemsByIdResult.length > 0) {
+  if (projectByIdResult.length > 0) {
     return { statusCode: 409, result: {} }
   } else {
     const createdProject = await postProjectDb(reqBody)
@@ -55,10 +44,12 @@ async function putProject(id, reqBody) {
 
   if (projectByIdResult.length === 0) {
     return { statusCode: 404, result: {} }
-  } else {
+  } else if (projectByIdResult[0].name !== reqBody.name) {
     const result = await updateProjectDb(id, reqBody)
 
     return { statusCode: 200, result: result[0] }
+  } else {
+    return { statusCode: 409, result: {} }
   }
 }
 
@@ -77,7 +68,6 @@ async function deleteProjectById(id) {
 module.exports = {
   getProjects,
   postProject,
-  getProjectByName,
   getProjectById,
   deleteProjectById,
   putProject,
