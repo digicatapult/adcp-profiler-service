@@ -16,7 +16,7 @@ const createDefaultProject = ({ clientId }) => {
     startDate: moment().startOf('day').toISOString(),
     endDate: moment().endOf('day').toISOString(),
     budget: 100000,
-    documentsPath: 'http://www.digitalcatapult.org.uk/document/path',
+    documentUrl: 'http://www.digitalcatapult.org.uk/document/url',
   })
 }
 
@@ -37,7 +37,7 @@ const assertPostProjectParams = (actualResult, expectedResult) => {
   expect(actualResult.startDate).to.equal(expectedResult.startDate)
   expect(actualResult.endDate).to.equal(expectedResult.endDate)
   expect(actualResult.budget).to.equal(expectedResult.budget)
-  expect(actualResult.documentsPath).to.equal(expectedResult.documentsPath)
+  expect(actualResult.documentUrl).to.equal(expectedResult.documentUrl)
 }
 
 const assertGetProjects = (actualResult, expectedResult) => {

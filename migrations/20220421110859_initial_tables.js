@@ -14,6 +14,8 @@ exports.up = async (knex) => {
     def.string('last_name', 50).notNullable()
     def.string('company', 50).notNullable()
     def.string('role', 50).notNullable()
+    def.datetime('created_at').notNullable().default(now())
+    def.datetime('updated_at').notNullable().default(now())
 
     def.primary(['id'])
   })
@@ -26,7 +28,7 @@ exports.up = async (knex) => {
     def.datetime('start_date')
     def.datetime('end_date')
     def.float('budget')
-    def.string('documents_path', 100)
+    def.string('document_url', 100)
     def.datetime('created_at').notNullable().default(now())
     def.datetime('updated_at').notNullable().default(now())
 
@@ -35,10 +37,12 @@ exports.up = async (knex) => {
   })
 
   await knex.schema.createTable('project_services', (def) => {
-    def.uuid('id').defaultTo(uuidGenerateV4())
+    def.uuid('service_id')
     def.uuid('project_id').notNullable()
+    def.datetime('created_at').notNullable().default(now())
+    def.datetime('updated_at').notNullable().default(now())
 
-    def.primary(['id'])
+    def.primary(['service_id'])
     def.foreign('project_id').references('id').on('projects').onDelete('CASCADE').onUpdate('CASCADE')
   })
 }
@@ -47,5 +51,6 @@ exports.down = async (knex) => {
   await knex.schema.dropTable('project_services')
   await knex.schema.dropTable('projects')
   await knex.schema.dropTable('clients')
+
   await knex.raw('DROP EXTENSION "uuid-ossp"')
 }

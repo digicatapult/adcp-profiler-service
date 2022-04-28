@@ -55,7 +55,7 @@ describe('routes', function () {
         startDate: null,
         endDate: null,
         budget: null,
-        documentsPath: null,
+        documentUrl: null,
       }
 
       const response = await postProjectRoute(project, app)
@@ -134,7 +134,7 @@ describe('routes', function () {
         startDate: moment().startOf('day').toISOString(),
         endDate: moment().endOf('day').toISOString(),
         budget: 200000.0,
-        documentsPath: 'http://digitalcatapult.org.uk/document/path',
+        documentUrl: 'http://digitalcatapult.org.uk/document/url',
       })
 
       const response = await putProjectRoute(invalidId, project, app)
@@ -149,7 +149,7 @@ describe('routes', function () {
         startDate: moment().startOf('day').toISOString(),
         endDate: moment().endOf('day').toISOString(),
         budget: 200000.0,
-        documentsPath: 'http://digitalcatapult.org.uk/document/path',
+        documentUrl: 'http://digitalcatapult.org.uk/document/url',
       })
 
       const response = await putProjectRoute(invalidId, project, app)
@@ -165,7 +165,7 @@ describe('routes', function () {
         startDate: moment().startOf('day').toISOString(),
         endDate: moment().endOf('day').toISOString(),
         budget: 200000.0,
-        documentsPath: 'http://digitalcatapult.org.uk/document/path',
+        documentUrl: 'http://digitalcatapult.org.uk/document/url',
       })
 
       const response = await putProjectRoute(invalidId, project, app)

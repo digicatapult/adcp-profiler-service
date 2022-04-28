@@ -69,8 +69,8 @@ const apiDoc = {
             type: 'number',
             nullable: true,
           },
-          documentsPath: {
-            description: 'Project documents path',
+          documentUrl: {
+            description: 'Project document url',
             type: 'string',
             nullable: true,
           },
@@ -111,8 +111,8 @@ const apiDoc = {
             type: 'number',
             nullable: true,
           },
-          documentsPath: {
-            description: 'Project documents path',
+          documentUrl: {
+            description: 'Project document url',
             type: 'string',
             nullable: true,
           },

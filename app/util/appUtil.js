@@ -19,8 +19,8 @@ const updateProjectObject = (project) => {
   if (Object.keys(project).includes('budget')) {
     updatedProject.budget = project.budget
   }
-  if (Object.keys(project).includes('documentsPath')) {
-    updatedProject.documents_path = project.documentsPath
+  if (Object.keys(project).includes('documentUrl')) {
+    updatedProject.document_url = project.documentUrl
   }
 
   return updatedProject

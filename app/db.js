@@ -26,7 +26,7 @@ async function postProjectDb(reqBody) {
       start_date: reqBody.startDate,
       end_date: reqBody.endDate,
       budget: reqBody.budget,
-      documents_path: reqBody.documentsPath,
+      document_url: reqBody.documentUrl,
     })
     .returning([
       'id',
@@ -36,7 +36,7 @@ async function postProjectDb(reqBody) {
       'start_date AS startDate',
       'end_date AS endDate',
       'budget',
-      'documents_path AS documentsPath',
+      'document_url AS documentUrl',
     ])
 }
 
@@ -49,7 +49,7 @@ async function getProjectsDb() {
     'p.start_date AS startDate',
     'p.end_date AS endDate',
     'p.budget',
-    'p.documents_path AS documentsPath',
+    'p.document_url AS documentUrl',
   ])
 }
 
@@ -67,7 +67,7 @@ async function getProjectByIdDb(id) {
       'start_date AS startDate',
       'end_date AS endDate',
       'budget',
-      'documents_path AS documentsPath',
+      'document_url AS documentUrl',
     ])
     .where({ id })
 }
@@ -90,7 +90,7 @@ async function updateProjectDb(id, reqBody) {
       'start_date AS startDate',
       'end_date AS endDate',
       'budget',
-      'documents_path AS documentsPath',
+      'document_url AS documentUrl',
     ])
 }
 
