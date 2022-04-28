@@ -1,4 +1,5 @@
 const knex = require('knex')
+
 const env = require('./env')
 const { updateProjectObject } = require('./util/appUtil')
 
@@ -76,7 +77,6 @@ async function deleteProjectByIdDb(id) {
 }
 
 async function updateProjectDb(id, reqBody) {
-  console.log('updated project', id, reqBody)
   const updatedProject = updateProjectObject(reqBody)
 
   return client('projects')

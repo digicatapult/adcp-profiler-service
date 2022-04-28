@@ -5,7 +5,7 @@ const apiDoc = require('../api-doc')
 
 const POST_PROJECT_RESPONSES = {
   201: {
-    description: 'New Project Created',
+    description: 'Post Project',
     content: {
       'application/json': {
         schema: apiDoc.components.schemas.GetProject,

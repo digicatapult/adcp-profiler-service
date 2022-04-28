@@ -6,6 +6,8 @@ const swaggerUi = require('swagger-ui-express')
 const path = require('path')
 const bodyParser = require('body-parser')
 const compression = require('compression')
+const moment = require('moment')
+
 const { PORT, API_VERSION, API_MAJOR_VERSION } = require('./env')
 const logger = require('./logger')
 const v1ApiDoc = require('./api-v1/api-doc')
@@ -34,6 +36,14 @@ async function createHttpServer() {
     apiDoc: v1ApiDoc,
     dependencies: {
       apiService: v1ApiService,
+    },
+    customFormats: {
+      startDate: function (input) {
+        return moment(input, moment.ISO_8601).isValid()
+      },
+      endDate: function (input) {
+        return moment(input, moment.ISO_8601).isValid()
+      },
     },
     paths: [path.resolve(__dirname, `api-${API_MAJOR_VERSION}/routes`)],
   })

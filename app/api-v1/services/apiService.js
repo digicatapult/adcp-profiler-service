@@ -25,12 +25,13 @@ async function getProjectByName(name) {
 }
 
 async function getProjectById(id) {
-  const itemsByIdResult = await getProjectByIdDb(id)
+  const projectsByIdResult = await getProjectByIdDb(id)
 
-  if (itemsByIdResult.length === 0) {
+  if (projectsByIdResult.length === 0) {
     return { statusCode: 404, result: {} }
   } else {
-    const result = itemsByIdResult.length === 1 ? itemsByIdResult[0] : {}
+    const result = projectsByIdResult.length === 1 ? projectsByIdResult[0] : {}
+
     return { statusCode: 200, result }
   }
 }
@@ -50,15 +51,14 @@ async function postProject(reqBody) {
 }
 
 async function putProject(id, reqBody) {
-  console.log('APISERVICE 1', id, reqBody)
   const projectByIdResult = await getProjectByIdDb(id)
-  console.log('APISERVICE 2', projectByIdResult)
 
   if (projectByIdResult.length === 0) {
     return { statusCode: 404, result: {} }
   } else {
     const result = await updateProjectDb(id, reqBody)
-    return { statusCode: 200, result }
+
+    return { statusCode: 200, result: result[0] }
   }
 }
 

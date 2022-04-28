@@ -1,26 +1,20 @@
 const {
-  PROJECT_ID_RESPONSE,
-  validateProjectByIdResponse,
+  validateGetProjectByIdResponse,
+  GET_PROJECT_BY_ID_RESPONSES,
 } = require('../../../validators/getProjectByIdResponseValidator')
-
+const { PUT_PROJECT_RESPONSES, validatePutProjectResponse } = require('../../../validators/putProjectResponseValidator')
 const {
-  PUT_PROJECT_RESPONSES,
-  validatePutProjectResponse,
-} = require('../../../validators/putProjectByIdResponseValidator')
-
-const {
-  DELETE_ID_RESPONSE,
-  validateDeleteProjectByIdResponse,
-} = require('../../../validators/deleteProjectByIdResponseValidator')
+  DELETE_PROJECT_RESPONSES,
+  validateDeleteProjectResponse,
+} = require('../../../validators/deleteProjectResponseValidator')
 
 module.exports = function (apiService) {
   const doc = {
     GET: async function (req, res) {
       const { id } = req.params
-
       const { statusCode, result } = await apiService.getProjectById(id)
 
-      const validationErrors = validateProjectByIdResponse(statusCode, result)
+      const validationErrors = validateGetProjectByIdResponse(statusCode, result)
 
       if (validationErrors) {
         res.status(statusCode).json(validationErrors)
@@ -32,9 +26,6 @@ module.exports = function (apiService) {
     },
     PUT: async function (req, res) {
       const { id } = req.params
-
-      console.log('PUT ROUTE', id)
-
       const { statusCode, result } = await apiService.putProject(id, req.body)
 
       const validationErrors = validatePutProjectResponse(statusCode, result)
@@ -51,7 +42,7 @@ module.exports = function (apiService) {
       const { id } = req.params
       const { statusCode, result } = await apiService.deleteProjectById(id)
 
-      const validationErrors = validateDeleteProjectByIdResponse(statusCode, result)
+      const validationErrors = validateDeleteProjectResponse(statusCode, result)
 
       if (validationErrors) {
         res.status(statusCode).json(validationErrors)
@@ -64,7 +55,7 @@ module.exports = function (apiService) {
   }
 
   doc.GET.apiDoc = {
-    summary: 'GET project by id',
+    summary: 'Get project by id',
     parameters: [
       {
         description: 'Project id',
@@ -74,7 +65,7 @@ module.exports = function (apiService) {
         allowEmptyValue: false,
       },
     ],
-    responses: PROJECT_ID_RESPONSE,
+    responses: GET_PROJECT_BY_ID_RESPONSES,
     tags: ['projects'],
   }
 
@@ -93,45 +84,7 @@ module.exports = function (apiService) {
       content: {
         'application/json': {
           schema: {
-            type: 'object',
-            properties: {
-              clientId: {
-                description: 'Project client id',
-                type: 'string',
-                format: 'uuid',
-              },
-              name: {
-                description: 'Project Name',
-                type: 'string',
-              },
-              description: {
-                description: 'Project Description',
-                type: 'string',
-              },
-              startDate: {
-                description: 'Project start date',
-                type: 'string',
-                format: 'date-time',
-                nullable: true,
-              },
-              endDate: {
-                description: 'Project end date',
-                type: 'string',
-                format: 'date-time',
-                nullable: true,
-              },
-              budget: {
-                description: 'Project budget',
-                type: 'number',
-                nullable: true,
-              },
-              documentsPath: {
-                description: 'Project documents path',
-                type: 'string',
-                nullable: true,
-              },
-            },
-            required: ['clientId', 'name', 'description'],
+            $ref: '#/components/schemas/PutProject',
           },
         },
       },
@@ -141,7 +94,7 @@ module.exports = function (apiService) {
   }
 
   doc.DELETE.apiDoc = {
-    summary: 'DELETE project by id',
+    summary: 'Delete project',
     parameters: [
       {
         description: 'Project id',
@@ -151,7 +104,7 @@ module.exports = function (apiService) {
         allowEmptyValue: false,
       },
     ],
-    responses: DELETE_ID_RESPONSE,
+    responses: DELETE_PROJECT_RESPONSES,
     tags: ['projects'],
   }
 

@@ -1,7 +1,6 @@
 const updateProjectObject = (project) => {
   const updatedProject = {}
 
-  //if (project && Object.keys(project).length > 0) {
   if (Object.keys(project).includes('clientId')) {
     updatedProject.client_id = project.clientId
   }
@@ -23,7 +22,7 @@ const updateProjectObject = (project) => {
   if (Object.keys(project).includes('documentsPath')) {
     updatedProject.documents_path = project.documentsPath
   }
-  //}
+
   return updatedProject
 }
 

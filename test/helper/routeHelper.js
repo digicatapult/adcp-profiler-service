@@ -59,7 +59,7 @@ async function getProjectByIdRoute(id, { app }) {
     })
 }
 
-async function createProjectRoute(project, { app }) {
+async function postProjectRoute(project, { app }) {
   return request(app)
     .post(`/${API_MAJOR_VERSION}/profiler/project`)
     .set('Accept', 'application/json')
@@ -107,7 +107,7 @@ module.exports = {
   apiDocs,
   healthCheck,
   getProjectsRoute,
-  createProjectRoute,
+  postProjectRoute,
   getProjectByIdRoute,
   putProjectRoute,
   deleteProjectByIdRoute,

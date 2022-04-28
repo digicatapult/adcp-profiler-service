@@ -1,5 +1,24 @@
 const { validate: uuidValidate, version: uuidVersion } = require('uuid')
 const { expect } = require('chai')
+const moment = require('moment')
+
+const createProject = (project) => {
+  const projectObj = { ...project }
+
+  return projectObj
+}
+
+const createDefaultProject = ({ clientId }) => {
+  return createProject({
+    clientId,
+    name: 'Project 1',
+    description: 'Project 2 Description',
+    startDate: moment().startOf('day').toISOString(),
+    endDate: moment().endOf('day').toISOString(),
+    budget: 100000,
+    documentsPath: 'http://www.digitalcatapult.org.uk/document/path',
+  })
+}
 
 const assertUuidV4 = (id) => {
   expect(uuidValidate(id) && uuidVersion(id) === 4).to.be.true
@@ -30,6 +49,8 @@ const assertGetProjects = (actualResult, expectedResult) => {
 }
 
 module.exports = {
+  createProject,
+  createDefaultProject,
   assertUuidV4,
   assertPostProjectParams,
   assertPostProjectRequiredParams,

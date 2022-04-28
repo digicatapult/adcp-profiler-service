@@ -1,9 +1,9 @@
 const { describe, test, before } = require('mocha')
 const { expect } = require('chai')
-const moment = require('moment')
 
 const {
-  assertUuidV4,
+  createDefaultProject,
+  createProject,
   assertPostProjectParams,
   assertPostProjectRequiredParams,
   assertGetProjects,
@@ -12,211 +12,178 @@ const { createHttpServer } = require('../../app/server')
 const {
   getProjectByIdRoute,
   getProjectsRoute,
-  createProjectRoute,
+  postProjectRoute,
   putProjectRoute,
   deleteProjectByIdRoute,
 } = require('../helper/routeHelper')
-const { seed } = require('../helper/seeds/project')
+const { seed, cleanup } = require('../helper/seeds/project')
+const moment = require('moment')
 
 describe('routes', function () {
   describe('Project routes', function () {
     let app
     let clientId
-    let fakeId
+    let invalidId
+    let defaultProject
 
     before(async function () {
-      //await cleanup()
       await seed()
 
       app = await createHttpServer()
       clientId = 'c7b9e848-e2bb-456d-8eaa-129c1cb3580c'
-      fakeId = '9c9c9c9d-99c9-999d-9ea9-9999d99b99fc'
+      invalidId = '00000000-0000-0000-0000-000000000000'
+      defaultProject = createDefaultProject({ clientId })
     })
 
-    after(async function () {})
-
-    test.only('POST Project with all fields', async function () {
-      const newProject = {
-        clientId,
-        name: 'item2',
-        description: 'Test Item',
-        startDate: new Date().toISOString(),
-        budget: 30000,
-        endDate: new Date().toISOString(),
-        documentsPath: 'http://path.com',
-      }
-      console.log('new project', newProject)
-      const response = await createProjectRoute(newProject, app)
-      console.log('response body', response.body)
-      expect(response.status).to.equal(201)
-      assertPostProjectParams(response.body, newProject)
+    beforeEach(async function () {
+      await cleanup('projects')
     })
 
-    test('GET projects', async function () {
-      const expectedResult = [
-        {
-          clientId,
-          name: 'item2',
-          description: 'Test Item',
-          startDate: null,
-          endDate: null,
-          budget: null,
-          documentsPath: null,
-        },
-      ]
+    test('POST Project with all fields', async function () {
+      const expectedResult = defaultProject
 
-      const response = await getProjectsRoute(app)
-
-      expect(response.status).to.equal(200)
-
-      assertGetProjects(response.body, expectedResult)
-    })
-
-    test('POST Project with only required fields', async function () {
-      const newProject = {
-        clientId,
-        name: 'item1',
-        description: 'Test Item',
-      }
-
-      const response = await createProjectRoute(newProject, app)
+      const response = await postProjectRoute(defaultProject, app)
 
       expect(response.status).to.equal(201)
-      assertPostProjectRequiredParams(response.body, newProject)
+      assertPostProjectParams(response.body, expectedResult)
     })
 
-    test('POST Project missing client ID', async function () {
-      const newProject = {
-        name: 'item1',
-        description: 'Test Item',
+    test('POST Project with only required request body parameters', async function () {
+      const project = createProject({ clientId, name: 'Project 1', description: 'Project 1 description' })
+      const expectedResult = {
+        ...project,
+        startDate: null,
+        endDate: null,
+        budget: null,
+        documentsPath: null,
       }
 
-      const response = await createProjectRoute(newProject, app)
+      const response = await postProjectRoute(project, app)
+
+      expect(response.status).to.equal(201)
+      assertPostProjectRequiredParams(response.body, expectedResult)
+    })
+
+    test('POST Project missing client id', async function () {
+      const project = createProject({ name: 'Project 1', description: 'Project 1 description' })
+
+      const response = await postProjectRoute(project, app)
 
       expect(response.status).to.equal(400)
       expect(response.body).deep.equal({})
     })
 
     test('POST invalid project', async function () {
-      const expectedResult = {}
-
-      const response = await createProjectRoute(expectedResult, app)
+      const response = await postProjectRoute({}, app)
 
       expect(response.status).to.equal(400)
-      expect(response.body).deep.equal(expectedResult)
+      expect(response.body).deep.equal({})
     })
 
     test('POST duplicate project', async function () {
-      const postedProjects = await getProjectsRoute(app)
-
-      const response = await createProjectRoute(postedProjects.body[0], app)
+      await postProjectRoute(defaultProject, app)
+      const response = await postProjectRoute(defaultProject, app)
 
       expect(response.status).to.equal(409)
       expect(response.body).deep.equal({})
     })
 
-    test('GET projects by id', async function () {
-      const newProject = { clientId, name: 'Get By Id', description: 'Test Item' }
+    test('GET projects', async function () {
+      const expectedResult = [defaultProject]
 
-      const tempResponse = await createProjectRoute(newProject, app)
-
-      const response = await getProjectByIdRoute(tempResponse.body.id, app)
-
-      expect(response.status).to.equal(200)
-      assertUuidV4(response.body.id)
-      assertPostProjectRequiredParams(response.body, tempResponse.body)
-    })
-
-    test('PUT project', async function () {
-      const newProject = { clientId, name: 'PUT item', description: 'Test PUT Item' }
-
-      const firstResponse = await createProjectRoute(newProject, app)
-
-      const updatedProject = {
-        clientId,
-        name: 'PUT item updated',
-        description: firstResponse.body.description,
-        startDate: new Date().toISOString(),
-        budget: 30000,
-        endDate: new Date().toISOString(),
-        documentsPath: 'http://path.com',
-      }
-
-      const response = await putProjectRoute(firstResponse.body.id, updatedProject, app)
+      await postProjectRoute(defaultProject, app)
+      const response = await getProjectsRoute(app)
 
       expect(response.status).to.equal(200)
-      assertPostProjectParams(response.body[0], updatedProject)
+      assertGetProjects(response.body, expectedResult)
     })
 
-    test('PUT project with incorrect id', async function () {
-      const newProject = { clientId, name: 'PUT item', description: 'Test PUT Item' }
+    test('GET project by id', async function () {
+      const expectedResult = defaultProject
 
-      const response = await putProjectRoute(fakeId, newProject, app)
+      const projectResponse = await postProjectRoute(defaultProject, app)
+      const response = await getProjectByIdRoute(projectResponse.body.id, app)
+
+      expect(response.status).to.equal(200)
+      assertPostProjectRequiredParams(response.body, expectedResult)
+    })
+
+    test('GET project by id with invalid path parameter', async function () {
+      const response = await getProjectByIdRoute(invalidId, app)
 
       expect(response.status).to.equal(404)
-      expect(response.body).deep.equal({})
     })
 
-    test('PUT project with missing required client ID parameter', async function () {
-      const newProject = { clientId, name: 'PUT item', description: 'Test PUT Item' }
+    test('PUT project with only required fields', async function () {
+      const project = createProject({ clientId, name: 'Project 1', description: 'Project 1 description' })
+      const projectUpdate = createProject({ clientId, name: 'Project 2', description: 'Project 2 description' })
+      const expectedResult = projectUpdate
 
-      const firstResponse = await createProjectRoute(newProject, app)
+      const projectResponse = await postProjectRoute(project, app)
+      const response = await putProjectRoute(projectResponse.body.id, projectUpdate, app)
 
-      expect(firstResponse.body.name).to.equal('PUT item')
+      expect(response.status).to.equal(200)
+      assertPostProjectRequiredParams(response.body, expectedResult)
+    })
 
-      const updatedProject = {
-        name: 'PUT item missing Client ID',
-        description: firstResponse.body.description,
-        startDate: new Date().toISOString(),
-        budget: 30000,
-      }
-      const response = await putProjectRoute(firstResponse.body.id, updatedProject, app)
+    test('PUT project with invalid id path parameter', async function () {
+      const project = createProject({
+        clientId,
+        name: 'Project 2',
+        description: 'Project 2 description',
+        startDate: moment().startOf('day').toISOString(),
+        endDate: moment().endOf('day').toISOString(),
+        budget: 200000.0,
+        documentsPath: 'http://digitalcatapult.org.uk/document/path',
+      })
+
+      const response = await putProjectRoute(invalidId, project, app)
+
+      expect(response.status).to.equal(404)
+    })
+
+    test('PUT project with missing required client id path parameter', async function () {
+      const project = createProject({
+        name: 'Project 2',
+        description: 'Project 2 description',
+        startDate: moment().startOf('day').toISOString(),
+        endDate: moment().endOf('day').toISOString(),
+        budget: 200000.0,
+        documentsPath: 'http://digitalcatapult.org.uk/document/path',
+      })
+
+      const response = await putProjectRoute(invalidId, project, app)
 
       expect(response.status).to.equal(400)
       expect(response.body).deep.equal({})
     })
 
-    // test('PUT project with multiple field updates', async function () {
-    //   const newProject = {
-    //     clientId,
-    //     name: 'PUT item',
-    //     description: 'Test PUT Item',
-    //     startDate: new Date().toISOString(),
-    //     endDate: new Date().toISOString(),
-    //     budget: 23000.5,
-    //     documentsPath: 'http://project.com',
-    //   }
+    test('PUT project with all request body parameters', async function () {
+      const project = createProject({
+        name: 'Project 2',
+        description: 'Project 2 description',
+        startDate: moment().startOf('day').toISOString(),
+        endDate: moment().endOf('day').toISOString(),
+        budget: 200000.0,
+        documentsPath: 'http://digitalcatapult.org.uk/document/path',
+      })
 
-    // //   const firstResponse = await createProjectRoute(newProject, app)
-    // //   console.log('First Response', firstResponse.body)
+      const response = await putProjectRoute(invalidId, project, app)
 
-    //   const updatedProject = {
-    //     clientId,
-    //     name: 'PUT item updated',
-    //     description: 'updatd PUT Item',
-    //     // startDate: moment().subtract(2, 'day').toISOString(),
-    //     // budget: 950.99,
-    //     // endDate: moment().subtract(1, 'day').toISOString(),
-    //     // documentsPath: 'http://updated.com',
-    //   }
-    //   const response = await putProjectRoute(firstResponse.body.id, updatedProject, app)
-
-    //   expect(response.status).to.equal(200)
-    //   assertPostProjectParams(response.body[0], updatedProject)
-    // })
-
-    test('DELETE project by id', async function () {
-      const newProject = { clientId, name: 'DELETE project', description: 'Test Item' }
-
-      const tempResponse = await createProjectRoute(newProject, app)
-
-      const response = await deleteProjectByIdRoute(tempResponse.body.id, app)
-
-      expect(response.status).to.equal(204)
+      expect(response.status).to.equal(400)
+      expect(response.body).deep.equal({})
     })
 
-    test('DELETE project with non-existant id', async function () {
-      const response = await deleteProjectByIdRoute(fakeId, app)
+    test('DELETE project', async function () {
+      const projectResponse = await postProjectRoute(defaultProject, app)
+      const response = await deleteProjectByIdRoute(projectResponse.body.id, app)
+
+      expect(response.status).to.equal(204)
+      expect(response.body).deep.equal({})
+    })
+
+    test('DELETE project with invalid id path parameter', async function () {
+      const response = await deleteProjectByIdRoute(invalidId, app)
 
       expect(response.status).to.equal(404)
     })

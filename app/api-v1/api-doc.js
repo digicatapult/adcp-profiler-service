@@ -52,18 +52,18 @@ const apiDoc = {
             description: 'Project Description',
             type: 'string',
           },
-          // startDate: {
-          //   description: 'Project start date',
-          //   type: 'string',
-          //   format: 'date-time',
-          //   //nullable: true,
-          // },
-          // endDate: {
-          //   description: 'Project end date',
-          //   type: 'string',
-          //   format: 'date-time',
-          //   //nullable: true,
-          // },
+          startDate: {
+            description: 'Project start date',
+            type: 'object',
+            format: 'startDate',
+            nullable: true,
+          },
+          endDate: {
+            description: 'Project end date',
+            type: 'object',
+            format: 'endDate',
+            nullable: true,
+          },
           budget: {
             description: 'Project budget',
             type: 'number',
@@ -94,18 +94,18 @@ const apiDoc = {
             description: 'Project Description',
             type: 'string',
           },
-          // startDate: {
-          //   description: 'Project start date',
-          //   type: 'string',
-          //   format: 'date-time',
-          //   //nullable: true,
-          // },
-          // endDate: {
-          //   description: 'Project end date',
-          //   type: 'string',
-          //   format: 'date-time',
-          //   //nullable: true,
-          // },
+          startDate: {
+            description: 'Project start date',
+            type: 'string',
+            format: 'date-time',
+            nullable: true,
+          },
+          endDate: {
+            description: 'Project end date',
+            type: 'string',
+            format: 'date-time',
+            nullable: true,
+          },
           budget: {
             description: 'Project budget',
             type: 'number',
@@ -123,11 +123,6 @@ const apiDoc = {
         description: 'PUT project',
         type: 'object',
         properties: {
-          id: {
-            description: 'Project id',
-            type: 'string',
-            format: 'uuid',
-          },
           clientId: {
             description: 'Project client id',
             type: 'string',
@@ -164,53 +159,7 @@ const apiDoc = {
             nullable: true,
           },
         },
-        required: ['id', 'clientId', 'name', 'description'],
-      },
-      GetProjectById: {
-        description: 'GET project by name',
-        type: 'object',
-        properties: {
-          id: {
-            description: 'Project Id',
-            type: 'string',
-          },
-          clientId: {
-            description: 'Project client id',
-            type: 'string',
-            format: 'uuid',
-          },
-          name: {
-            description: 'Project Name',
-            type: 'string',
-          },
-          description: {
-            description: 'Project Description',
-            type: 'string',
-          },
-          startDate: {
-            description: 'Project start date',
-            type: 'string',
-            format: 'date-time',
-            nullable: true,
-          },
-          endDate: {
-            description: 'Project end date',
-            type: 'string',
-            format: 'date-time',
-            nullable: true,
-          },
-          budget: {
-            description: 'Project budget',
-            type: 'number',
-            nullable: true,
-          },
-          documentsPath: {
-            description: 'Project documents path',
-            type: 'string',
-            nullable: true,
-          },
-        },
-        required: ['id'],
+        required: ['clientId', 'name', 'description'],
       },
     },
   },

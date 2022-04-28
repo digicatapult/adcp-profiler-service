@@ -1,5 +1,4 @@
 const { GET_PROJECTS_RESPONSES } = require('../../validators/getProjectsResponseValidator')
-
 const { POST_PROJECT_RESPONSES, validatePostProjectResponse } = require('../../validators/postProjectResponseValidator')
 
 module.exports = function (apiService) {

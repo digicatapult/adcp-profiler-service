@@ -1,13 +1,17 @@
 const { client } = require('../../../app/db')
 
-const cleanup = async () => {
+const cleanup = async (tableName) => {
+  await client(tableName).del()
+}
+
+const cleanupAll = async () => {
   await client('project_services').del()
   await client('projects').del()
   await client('clients').del()
 }
 
 const seed = async () => {
-  await cleanup()
+  await cleanupAll()
 
   const clientId = 'c7b9e848-e2bb-456d-8eaa-129c1cb3580c'
 
@@ -24,5 +28,6 @@ const seed = async () => {
 
 module.exports = {
   cleanup,
+  cleanupAll,
   seed,
 }
