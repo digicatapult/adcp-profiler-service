@@ -7,12 +7,23 @@ const {
   updateProjectDb,
   postClientDb,
   getClientsDb,
+  getClientByIdDb,
 } = require('../../db')
 
 async function getClients() {
   const result = await getClientsDb()
 
   return { statusCode: 200, result }
+}
+
+async function getClientById(id) {
+  const result = await getClientByIdDb(id)
+
+  if (result.length === 1) {
+    return { statusCode: 200, result: result[0] }
+  } else {
+    return { statusCode: 404, result: {} }
+  }
 }
 
 async function postClient(reqBody) {
@@ -77,6 +88,7 @@ async function deleteProjectById(id) {
 
 module.exports = {
   getClients,
+  getClientById,
   postClient,
   getProjects,
   postProject,

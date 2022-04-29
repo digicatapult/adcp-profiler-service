@@ -3,7 +3,7 @@ const { expect } = require('chai')
 
 const { createDefaultClient, assertClientParams, assertGetClients } = require('../helper/appHelper')
 const { createHttpServer } = require('../../app/server')
-const { postClientRoute, getClientsRoute } = require('../helper/clientRouteHelper')
+const { postClientRoute, getClientsRoute, getClientByIdRoute } = require('../helper/clientRouteHelper')
 const { cleanupAll, cleanup } = require('../helper/seeds/project')
 
 describe('Client routes', function () {
@@ -25,30 +25,40 @@ describe('Client routes', function () {
   test('POST Client', async function () {
     const expectedResult = defaultClient
 
-    const response = await postClientRoute(defaultClient, app)
+    const actualResponse = await postClientRoute(defaultClient, app)
 
-    expect(response.status).to.equal(201)
-    assertClientParams(response.body, expectedResult)
+    expect(actualResponse.status).to.equal(201)
+    assertClientParams(actualResponse.body, expectedResult)
   })
 
   test('POST client missing fields', async function () {
-    const response = await postClientRoute({}, app)
+    const actualResponse = await postClientRoute({}, app)
 
-    expect(response.status).to.equal(400)
-    expect(response.body).to.deep.equal({})
+    expect(actualResponse.status).to.equal(400)
+    expect(actualResponse.body).to.deep.equal({})
   })
 
   test('GET clients', async function () {
     const expectedResult = [defaultClient]
 
     await postClientRoute(defaultClient, app)
-    const response = await getClientsRoute(app)
+    const actualResponse = await getClientsRoute(app)
 
-    expect(response.status).to.equal(200)
-    assertGetClients(response.body, expectedResult)
+    expect(actualResponse.status).to.equal(200)
+    assertGetClients(actualResponse.body, expectedResult)
   })
 
-  test.skip('GET client by id', async function () {})
+  test('GET client by id', async function () {
+    const expectedResult = defaultClient
+
+    const response = await postClientRoute(defaultClient, app)
+
+    const actualResponse = await getClientByIdRoute(response.body.id, app)
+    console.log(actualResponse.body)
+
+    expect(actualResponse.status).to.equal(200)
+    assertClientParams(actualResponse.body, expectedResult)
+  })
 
   test.skip('GET client by id for non-existing client', async function () {})
 
