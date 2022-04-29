@@ -5,21 +5,21 @@ const {
   getProjectByIdDb,
   deleteProjectByIdDb,
   updateProjectDb,
-  postClientDb,
-  getClientsDb,
-  getClientByIdDb,
-  putClientDb,
-  deleteClientDb,
+  addClientDb,
+  findClientsDb,
+  findClientByIdDb,
+  updateClientDb,
+  removeClientDb,
 } = require('../../db')
 
 async function getClients() {
-  const result = await getClientsDb()
+  const result = await findClientsDb()
 
   return { statusCode: 200, result }
 }
 
 async function getClientById(id) {
-  const result = await getClientByIdDb(id)
+  const result = await findClientByIdDb(id)
 
   if (result.length === 1) {
     return { statusCode: 200, result: result[0] }
@@ -29,16 +29,16 @@ async function getClientById(id) {
 }
 
 async function postClient(reqBody) {
-  const result = await postClientDb(reqBody)
+  const result = await addClientDb(reqBody)
 
   return { statusCode: 201, result: result[0] }
 }
 
 async function putClient(id, reqBody) {
-  const getClientByIdResult = await getClientByIdDb(id)
+  const findResult = await findClientByIdDb(id)
 
-  if (getClientByIdResult.length === 1) {
-    const result = await putClientDb(id, reqBody)
+  if (findResult.length === 1) {
+    const result = await updateClientDb(id, reqBody)
 
     return { statusCode: 200, result: result[0] }
   } else {
@@ -47,10 +47,10 @@ async function putClient(id, reqBody) {
 }
 
 async function deleteClient(id) {
-  const getClientByIdResult = await getClientByIdDb(id)
+  const findResult = await findClientByIdDb(id)
 
-  if (getClientByIdResult.length === 1) {
-    await deleteClientDb(id)
+  if (findResult.length === 1) {
+    await removeClientDb(id)
 
     return { statusCode: 204 }
   } else {

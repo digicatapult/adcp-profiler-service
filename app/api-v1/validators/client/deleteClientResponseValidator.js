@@ -3,7 +3,7 @@ const { default: OpenAPIResponseValidator } = require('openapi-response-validato
 
 const DELETE_CLIENT_RESPONSES = {
   204: {
-    description: 'Delete client',
+    description: 'Deleted client',
   },
   404: apiDocResponses['404'],
   default: apiDocResponses.default,

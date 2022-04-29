@@ -4,7 +4,7 @@ const { default: OpenAPIResponseValidator } = require('openapi-response-validato
 
 const PUT_CLIENT_RESPONSES = {
   200: {
-    description: 'Update client',
+    description: 'Updated client',
     content: {
       'application/json': {
         schema: apiDoc.components.schemas.GetClient,

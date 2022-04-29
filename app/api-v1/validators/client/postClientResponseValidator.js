@@ -5,7 +5,7 @@ const apiDoc = require('../../api-doc')
 
 const POST_CLIENT_RESPONSES = {
   201: {
-    description: 'POST client',
+    description: 'Created client',
     content: {
       'application/json': {
         schema: apiDoc.components.schemas.GetClient,

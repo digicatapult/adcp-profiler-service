@@ -57,7 +57,7 @@ module.exports = function (apiService) {
   }
 
   doc.GET.apiDoc = {
-    summary: 'Get client by id',
+    summary: 'Retrieve client by id',
     parameters: [
       {
         description: 'Client id',
@@ -75,7 +75,7 @@ module.exports = function (apiService) {
   }
 
   doc.PUT.apiDoc = {
-    summary: 'Put client',
+    summary: 'Update client',
     parameters: [
       {
         description: 'Client id',
@@ -102,7 +102,7 @@ module.exports = function (apiService) {
   }
 
   doc.DELETE.apiDoc = {
-    summary: 'Delete client',
+    summary: 'Remove client',
     parameters: [
       {
         description: 'Client id',

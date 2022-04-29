@@ -4,7 +4,7 @@ const { default: OpenAPIResponseValidator } = require('openapi-response-validato
 
 const GET_CLIENT_BY_ID_RESPONSES = {
   200: {
-    description: 'GET client by id',
+    description: 'Retrieved client by id',
     content: {
       'application/json': {
         schema: apiDoc.components.schemas.GetClient,

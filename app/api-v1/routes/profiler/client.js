@@ -38,13 +38,13 @@ module.exports = function (apiService) {
   }
 
   doc.GET.apiDoc = {
-    summary: 'GET clients',
+    summary: 'Retrieve clients',
     responses: GET_CLIENTS_RESPONSES,
     tags: ['clients'],
   }
 
   doc.POST.apiDoc = {
-    summary: 'POST client',
+    summary: 'Create client',
     requestBody: {
       content: {
         'application/json': {
