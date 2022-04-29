@@ -106,13 +106,13 @@ const apiDoc = {
           startDate: {
             description: 'Start date of the project',
             type: 'object',
-            format: 'startDate',
+            format: 'js-date',
             nullable: true,
           },
           endDate: {
             description: 'End date of the project',
             type: 'object',
-            format: 'endDate',
+            format: 'js-date',
             nullable: true,
           },
           budget: {
