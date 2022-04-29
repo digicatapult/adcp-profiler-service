@@ -1,6 +1,7 @@
+const { default: OpenAPIResponseValidator } = require('openapi-response-validator')
+
 const apiDocResponses = require('../../api-doc-responses')
 const apiDoc = require('../../api-doc')
-const { default: OpenAPIResponseValidator } = require('openapi-response-validator')
 
 const PUT_CLIENT_RESPONSES = {
   200: {

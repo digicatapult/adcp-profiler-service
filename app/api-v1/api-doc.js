@@ -31,7 +31,7 @@ const apiDoc = {
     },
     schemas: {
       GetClient: {
-        description: 'Schema for returning a client',
+        description: 'Schema for retrieving a client',
         type: 'object',
         properties: {
           id: {
