@@ -29,7 +29,12 @@ describe('Client routes', function () {
     assertClientParams(response.body, expectedResult)
   })
 
-  test.skip('POST client missing fields', async function () {})
+  test('POST client missing fields', async function () {
+    const response = await postClientRoute({}, app)
+
+    expect(response.status).to.equal(400)
+    expect(response.body).to.deep.equal({})
+  })
 
   test.skip('POST invalid client', async function () {})
 
