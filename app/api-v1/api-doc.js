@@ -31,7 +31,7 @@ const apiDoc = {
     },
     schemas: {
       GetClient: {
-        description: 'GET client',
+        description: 'Schema for returning a client',
         type: 'object',
         properties: {
           id: {
@@ -59,7 +59,7 @@ const apiDoc = {
         required: ['id', 'firstName', 'lastName', 'company', 'role'],
       },
       PostAndPutClient: {
-        description: 'POST/PUT client',
+        description: 'Schema for creating/updating a client',
         type: 'object',
         properties: {
           firstName: {
