@@ -1,4 +1,4 @@
-const OpenAPIResponseValidator = require('openapi-response-validator').default
+const { default: OpenAPIResponseValidator } = require('openapi-response-validator')
 
 const apiDocResponses = require('../../api-doc-responses')
 const apiDoc = require('../../api-doc')
