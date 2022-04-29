@@ -60,7 +60,7 @@ module.exports = function (apiService) {
     summary: 'Retrieve client by id',
     parameters: [
       {
-        description: 'Client id',
+        description: 'Id of the client',
         in: 'path',
         required: true,
         name: 'id',
@@ -78,7 +78,7 @@ module.exports = function (apiService) {
     summary: 'Update client',
     parameters: [
       {
-        description: 'Client id',
+        description: 'Id of the client',
         in: 'path',
         required: true,
         name: 'id',
@@ -105,7 +105,7 @@ module.exports = function (apiService) {
     summary: 'Remove client',
     parameters: [
       {
-        description: 'Client id',
+        description: 'Id of the client',
         in: 'path',
         required: true,
         name: 'id',
