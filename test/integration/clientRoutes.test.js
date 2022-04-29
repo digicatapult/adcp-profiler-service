@@ -6,7 +6,7 @@ const { createHttpServer } = require('../../app/server')
 const { postClientRoute } = require('../helper/clientRouteHelper')
 const { cleanupAll } = require('../helper/seeds/project')
 
-describe.only('Client routes', function () {
+describe.skip('Client routes', function () {
   let app
   let defaultClient
 
