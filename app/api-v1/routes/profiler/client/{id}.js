@@ -48,7 +48,7 @@ module.exports = function (apiService) {
       const validationErrors = validateDeleteClientResponse(statusCode, result)
 
       if (validationErrors) {
-        res.status(statusCode).json(result)
+        res.status(statusCode).json(validationErrors)
         return
       } else {
         res.status(statusCode).send()
