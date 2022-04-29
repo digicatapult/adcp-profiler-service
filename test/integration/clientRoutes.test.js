@@ -3,7 +3,13 @@ const { expect } = require('chai')
 
 const { createDefaultClient, assertClientParams, assertGetClients, createClient } = require('../helper/appHelper')
 const { createHttpServer } = require('../../app/server')
-const { postClientRoute, getClientsRoute, getClientByIdRoute, putClientRoute } = require('../helper/clientRouteHelper')
+const {
+  postClientRoute,
+  getClientsRoute,
+  getClientByIdRoute,
+  putClientRoute,
+  deleteClientRoute,
+} = require('../helper/clientRouteHelper')
 const { cleanupAll, cleanup } = require('../helper/seeds/project')
 
 describe('Client routes', function () {
@@ -111,7 +117,13 @@ describe('Client routes', function () {
     expect(actualResponse.body).to.deep.equal({})
   })
 
-  test.skip('DELETE client', async function () {})
+  test('DELETE client', async function () {
+    const response = await postClientRoute(defaultClient, app)
+    const actualResponse = await deleteClientRoute(response.body.id, app)
+
+    expect(actualResponse.status).to.equal(204)
+    expect(actualResponse.body).to.deep.equal({})
+  })
 
   test.skip('DELETE client for non-existing client', async function () {})
 

@@ -61,7 +61,7 @@ async function putClientRoute(id, client, { app }) {
     })
 }
 
-async function deleteClientByIdRoute(id, { app }) {
+async function deleteClientRoute(id, { app }) {
   return request(app)
     .delete(`/${API_MAJOR_VERSION}/profiler/client/${id}`)
     .set('Accept', 'application/json')
@@ -80,5 +80,5 @@ module.exports = {
   postClientRoute,
   getClientByIdRoute,
   putClientRoute,
-  deleteClientByIdRoute,
+  deleteClientRoute,
 }

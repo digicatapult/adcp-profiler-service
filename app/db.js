@@ -50,6 +50,10 @@ async function putClientDb(id, reqBody) {
     .returning(['id', 'first_name AS firstName', 'last_name AS lastName', 'company', 'role'])
 }
 
+async function deleteClientDb(id) {
+  return client('clients').del().where({ id })
+}
+
 async function postProjectDb(reqBody) {
   return client('projects')
     .insert({
@@ -133,6 +137,7 @@ module.exports = {
   getClientByIdDb,
   postClientDb,
   putClientDb,
+  deleteClientDb,
   getProjectsDb,
   getProjectByNameDb,
   postProjectDb,
