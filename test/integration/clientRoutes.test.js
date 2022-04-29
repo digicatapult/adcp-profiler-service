@@ -9,6 +9,7 @@ const { cleanupAll, cleanup } = require('../helper/seeds/project')
 describe('Client routes', function () {
   let app
   let defaultClient
+  let invalidClientId
 
   before(async function () {
     await cleanupAll()
@@ -16,6 +17,7 @@ describe('Client routes', function () {
     app = await createHttpServer()
 
     defaultClient = createDefaultClient()
+    invalidClientId = '00000000-0000-0000-0000-000000000000'
   })
 
   beforeEach(async function () {
@@ -52,15 +54,18 @@ describe('Client routes', function () {
     const expectedResult = defaultClient
 
     const response = await postClientRoute(defaultClient, app)
-
     const actualResponse = await getClientByIdRoute(response.body.id, app)
-    console.log(actualResponse.body)
 
     expect(actualResponse.status).to.equal(200)
     assertClientParams(actualResponse.body, expectedResult)
   })
 
-  test.skip('GET client by id for non-existing client', async function () {})
+  test('GET client by id for non-existing client', async function () {
+    const actualResponse = await getClientByIdRoute(invalidClientId, app)
+
+    expect(actualResponse.status).to.equal(404)
+    expect(actualResponse.body).to.deep.equal({})
+  })
 
   test.skip('GET client by id with invalid path id parameter', async function () {})
 
