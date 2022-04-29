@@ -1,23 +1,25 @@
 const { describe, test, before } = require('mocha')
 const { expect } = require('chai')
 
-const { createDefaultClient, assertClientParams } = require('../helper/appHelper')
+const { createDefaultClient, assertClientParams, assertGetClients } = require('../helper/appHelper')
 const { createHttpServer } = require('../../app/server')
-const { postClientRoute } = require('../helper/clientRouteHelper')
-const { cleanupAll } = require('../helper/seeds/project')
+const { postClientRoute, getClientsRoute } = require('../helper/clientRouteHelper')
+const { cleanupAll, cleanup } = require('../helper/seeds/project')
 
 describe('Client routes', function () {
   let app
   let defaultClient
 
   before(async function () {
+    await cleanupAll()
+
     app = await createHttpServer()
 
     defaultClient = createDefaultClient()
   })
 
   beforeEach(async function () {
-    await cleanupAll()
+    await cleanup('clients')
   })
 
   test('POST Client', async function () {
@@ -36,9 +38,15 @@ describe('Client routes', function () {
     expect(response.body).to.deep.equal({})
   })
 
-  test.skip('POST invalid client', async function () {})
+  test('GET clients', async function () {
+    const expectedResult = [defaultClient]
 
-  test.skip('GET clients', async function () {})
+    await postClientRoute(defaultClient, app)
+    const response = await getClientsRoute(app)
+
+    expect(response.status).to.equal(200)
+    assertGetClients(response.body, expectedResult)
+  })
 
   test.skip('GET client by id', async function () {})
 

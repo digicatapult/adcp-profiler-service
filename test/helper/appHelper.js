@@ -43,6 +43,14 @@ const assertClientParams = (actualResult, expectedResult) => {
   expect(actualResult.role).to.equal(expectedResult.role)
 }
 
+const assertGetClients = (actualResults, expectedResults) => {
+  expect(actualResults.length).to.equal(expectedResults.length)
+
+  actualResults.forEach((actualResult, index) => {
+    assertClientParams(actualResult, expectedResults[index])
+  })
+}
+
 const assertPostProjectRequiredParams = (actualResult, expectedResult) => {
   assertUuidV4(actualResult.id)
   expect(actualResult.clientId).to.equal(expectedResult.clientId)
@@ -59,11 +67,11 @@ const assertPostProjectParams = (actualResult, expectedResult) => {
   expect(actualResult.documentUrl).to.equal(expectedResult.documentUrl)
 }
 
-const assertGetProjects = (actualResult, expectedResult) => {
-  expect(actualResult.length).to.equal(expectedResult.length)
+const assertGetProjects = (actualResults, expectedResults) => {
+  expect(actualResults.length).to.equal(expectedResults.length)
 
-  actualResult.forEach((item, index) => {
-    assertPostProjectParams(item, expectedResult[index])
+  actualResults.forEach((actualResult, index) => {
+    assertPostProjectParams(actualResult, expectedResults[index])
   })
 }
 
@@ -71,6 +79,7 @@ module.exports = {
   createClient,
   createDefaultClient,
   assertClientParams,
+  assertGetClients,
   createProject,
   createDefaultProject,
   assertUuidV4,

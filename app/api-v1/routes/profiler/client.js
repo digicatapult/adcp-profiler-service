@@ -2,9 +2,16 @@ const {
   POST_CLIENT_RESPONSES,
   validatePostClientResponse,
 } = require('../../validators/client/postClientResponseValidator')
+const { GET_CLIENTS_RESPONSES } = require('../../validators/client/getClientsResponseValidator')
 
 module.exports = function (apiService) {
   const doc = {
+    GET: async function (req, res) {
+      const { statusCode, result } = await apiService.getClients()
+
+      res.status(statusCode).json(result)
+      return
+    },
     POST: async function (req, res) {
       const { statusCode, result } = await apiService.postClient(req.body)
 
@@ -18,6 +25,12 @@ module.exports = function (apiService) {
         return
       }
     },
+  }
+
+  doc.GET.apiDoc = {
+    summary: 'GET clients',
+    responses: GET_CLIENTS_RESPONSES,
+    tags: ['clients'],
   }
 
   doc.POST.apiDoc = {
