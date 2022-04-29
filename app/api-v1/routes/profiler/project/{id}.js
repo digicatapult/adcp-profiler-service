@@ -1,15 +1,12 @@
 const {
   validateGetProjectByIdResponse,
   GET_PROJECT_BY_ID_RESPONSES,
-} = require('../../../validators/project/getProjectByIdResponseValidator')
-const {
-  PUT_PROJECT_RESPONSES,
-  validatePutProjectResponse,
-} = require('../../../validators/project/putProjectResponseValidator')
+} = require('../../../validators/getProjectByIdResponseValidator')
+const { PUT_PROJECT_RESPONSES, validatePutProjectResponse } = require('../../../validators/putProjectResponseValidator')
 const {
   DELETE_PROJECT_RESPONSES,
   validateDeleteProjectResponse,
-} = require('../../../validators/project/deleteProjectResponseValidator')
+} = require('../../../validators/deleteProjectResponseValidator')
 
 module.exports = function (apiService) {
   const doc = {
