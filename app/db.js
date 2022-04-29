@@ -54,7 +54,7 @@ async function removeClientDb(id) {
   return client('clients').del().where({ id })
 }
 
-async function postProjectDb(reqBody) {
+async function addProjectDb(reqBody) {
   return client('projects')
     .insert({
       client_id: reqBody.clientId,
@@ -77,7 +77,7 @@ async function postProjectDb(reqBody) {
     ])
 }
 
-async function getProjectsDb() {
+async function findProjectsDb() {
   return client('projects AS p').select([
     'p.id',
     'p.client_id AS clientId',
@@ -90,11 +90,11 @@ async function getProjectsDb() {
   ])
 }
 
-async function getProjectByNameDb(name) {
+async function findProjectByNameDb(name) {
   return client('projects').select('name').where({ name })
 }
 
-async function getProjectByIdDb(id) {
+async function findProjectByIdDb(id) {
   return client('projects')
     .select([
       'id',
@@ -109,7 +109,7 @@ async function getProjectByIdDb(id) {
     .where({ id })
 }
 
-async function deleteProjectByIdDb(id) {
+async function removeProjectDb(id) {
   return client('projects').where('id', id).del()
 }
 
@@ -138,10 +138,10 @@ module.exports = {
   addClientDb,
   updateClientDb,
   removeClientDb,
-  getProjectsDb,
-  getProjectByNameDb,
-  postProjectDb,
-  getProjectByIdDb,
-  deleteProjectByIdDb,
+  findProjectsDb,
+  findProjectByNameDb,
+  addProjectDb,
+  findProjectByIdDb,
+  removeProjectDb,
   updateProjectDb,
 }

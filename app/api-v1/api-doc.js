@@ -82,46 +82,46 @@ const apiDoc = {
         required: ['firstName', 'lastName', 'company', 'role'],
       },
       GetProject: {
-        description: 'GET project',
+        description: 'Schema for retrieving a project',
         type: 'object',
         properties: {
           id: {
-            description: 'Project id',
+            description: 'Id of the project',
             type: 'string',
             format: 'uuid',
           },
           clientId: {
-            description: 'Project client id',
+            description: 'Client id of the project',
             type: 'string',
             format: 'uuid',
           },
           name: {
-            description: 'Project Name',
+            description: 'Name of the project',
             type: 'string',
           },
           description: {
-            description: 'Project Description',
+            description: 'Description of the project',
             type: 'string',
           },
           startDate: {
-            description: 'Project start date',
+            description: 'Start date of the project',
             type: 'object',
             format: 'startDate',
             nullable: true,
           },
           endDate: {
-            description: 'Project end date',
+            description: 'End date of the project',
             type: 'object',
             format: 'endDate',
             nullable: true,
           },
           budget: {
-            description: 'Project budget',
+            description: 'Budget of the project',
             type: 'number',
             nullable: true,
           },
           documentUrl: {
-            description: 'Project document url',
+            description: 'Document url of the project',
             type: 'string',
             nullable: true,
           },
@@ -129,41 +129,41 @@ const apiDoc = {
         required: ['id', 'clientId', 'name', 'description'],
       },
       PostAndPutProject: {
-        description: 'POST/PUT project',
+        description: 'Schema for creating/updating a project',
         type: 'object',
         properties: {
           clientId: {
-            description: 'Project client id',
+            description: 'Client id of the project',
             type: 'string',
             format: 'uuid',
           },
           name: {
-            description: 'Project Name',
+            description: 'Name of the project',
             type: 'string',
           },
           description: {
-            description: 'Project Description',
+            description: 'Description of the project',
             type: 'string',
           },
           startDate: {
-            description: 'Project start date',
+            description: 'Start date of the project',
             type: 'string',
             format: 'date-time',
             nullable: true,
           },
           endDate: {
-            description: 'Project end date',
+            description: 'End date of the project',
             type: 'string',
             format: 'date-time',
             nullable: true,
           },
           budget: {
-            description: 'Project budget',
+            description: 'Budget of the project',
             type: 'number',
             nullable: true,
           },
           documentUrl: {
-            description: 'Project document url',
+            description: 'Document url of the project',
             type: 'string',
             nullable: true,
           },

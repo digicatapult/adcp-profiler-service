@@ -61,7 +61,7 @@ async function putProjectRoute(id, project, { app }) {
     })
 }
 
-async function deleteProjectByIdRoute(id, { app }) {
+async function deleteProjectRoute(id, { app }) {
   return request(app)
     .delete(`/${API_MAJOR_VERSION}/profiler/project/${id}`)
     .set('Accept', 'application/json')
@@ -70,7 +70,7 @@ async function deleteProjectByIdRoute(id, { app }) {
       return response
     })
     .catch((err) => {
-      console.error(`getProjectsErr ${err}`)
+      console.error(`deleteProjectErr ${err}`)
       return err
     })
 }
@@ -80,5 +80,5 @@ module.exports = {
   postProjectRoute,
   getProjectByIdRoute,
   putProjectRoute,
-  deleteProjectByIdRoute,
+  deleteProjectRoute,
 }
