@@ -125,7 +125,12 @@ describe('Client routes', function () {
     expect(actualResponse.body).to.deep.equal({})
   })
 
-  test.skip('DELETE client for non-existing client', async function () {})
+  test('DELETE client for non-existing client', async function () {
+    const actualResponse = await deleteClientRoute(invalidClientId, app)
+
+    expect(actualResponse.status).to.equal(404)
+    expect(actualResponse.body).to.deep.equal({})
+  })
 
   test.skip('DELETE client with invalid id path parameter', async function () {})
 })
