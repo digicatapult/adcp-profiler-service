@@ -38,6 +38,18 @@ async function postClientDb(reqBody) {
     .returning(['id', 'first_name AS firstName', 'last_name AS lastName', 'company', 'role'])
 }
 
+async function putClientDb(id, reqBody) {
+  return client('clients')
+    .update({
+      first_name: reqBody.firstName,
+      last_name: reqBody.lastName,
+      company: reqBody.company,
+      role: reqBody.role,
+    })
+    .where({ id })
+    .returning(['id', 'first_name AS firstName', 'last_name AS lastName', 'company', 'role'])
+}
+
 async function postProjectDb(reqBody) {
   return client('projects')
     .insert({
@@ -120,6 +132,7 @@ module.exports = {
   getClientsDb,
   getClientByIdDb,
   postClientDb,
+  putClientDb,
   getProjectsDb,
   getProjectByNameDb,
   postProjectDb,

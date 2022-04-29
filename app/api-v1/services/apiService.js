@@ -8,6 +8,7 @@ const {
   postClientDb,
   getClientsDb,
   getClientByIdDb,
+  putClientDb,
 } = require('../../db')
 
 async function getClients() {
@@ -30,6 +31,18 @@ async function postClient(reqBody) {
   const result = await postClientDb(reqBody)
 
   return { statusCode: 201, result: result[0] }
+}
+
+async function putClient(id, reqBody) {
+  const getClientByIdResult = await getClientByIdDb(id)
+
+  if (getClientByIdResult.length === 1) {
+    const result = await putClientDb(id, reqBody)
+
+    return { statusCode: 200, result: result[0] }
+  } else {
+    return { statusCode: 404, result: {} }
+  }
 }
 
 async function getProjects() {
@@ -90,6 +103,7 @@ module.exports = {
   getClients,
   getClientById,
   postClient,
+  putClient,
   getProjects,
   postProject,
   getProjectById,
