@@ -20,6 +20,21 @@ const createDefaultProject = ({ clientId }) => {
   })
 }
 
+const createClient = (client) => {
+  const clientObj = { ...client }
+
+  return clientObj
+}
+
+const createDefaultClient = () => {
+  return createProject({
+    firstName: 'First name 1',
+    lastName: 'Last name 1',
+    company: 'Company 1',
+    role: 'Role 1',
+  })
+}
+
 const assertUuidV4 = (id) => {
   expect(uuidValidate(id) && uuidVersion(id) === 4).to.be.true
 }
@@ -49,6 +64,8 @@ const assertGetProjects = (actualResult, expectedResult) => {
 }
 
 module.exports = {
+  createClient,
+  createDefaultClient,
   createProject,
   createDefaultProject,
   assertUuidV4,
