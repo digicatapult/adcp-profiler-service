@@ -67,7 +67,12 @@ describe('Client routes', function () {
     expect(actualResponse.body).to.deep.equal({})
   })
 
-  test.skip('GET client by id with invalid path id parameter', async function () {})
+  test('GET client by id with invalid path id parameter', async function () {
+    const actualResponse = await getClientByIdRoute(1, app)
+
+    expect(actualResponse.status).to.equal(400)
+    expect(actualResponse.body).to.deep.equal({})
+  })
 
   test.skip('PUT client', async function () {})
 

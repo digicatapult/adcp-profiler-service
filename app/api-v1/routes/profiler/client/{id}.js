@@ -29,7 +29,10 @@ module.exports = function (apiService) {
         in: 'path',
         required: true,
         name: 'id',
-        allowEmptyValue: false,
+        schema: {
+          type: 'string',
+          format: 'uuid',
+        },
       },
     ],
     responses: GET_CLIENT_BY_ID_RESPONSES,
