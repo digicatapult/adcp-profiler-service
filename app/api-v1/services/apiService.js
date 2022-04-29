@@ -5,7 +5,14 @@ const {
   getProjectByIdDb,
   deleteProjectByIdDb,
   updateProjectDb,
+  postClientDb,
 } = require('../../db')
+
+async function postClient(reqBody) {
+  const result = await postClientDb(reqBody)
+
+  return { statusCode: 201, result: result[0] }
+}
 
 async function getProjects() {
   const result = await getProjectsDb()
@@ -62,6 +69,7 @@ async function deleteProjectById(id) {
 }
 
 module.exports = {
+  postClient,
   getProjects,
   postProject,
   getProjectById,

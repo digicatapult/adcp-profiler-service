@@ -17,6 +17,21 @@ const client = knex({
   },
 })
 
+async function getClientsDb() {
+  return client('clients').select(['id', 'first_name AS firstName', 'last_name AS lastName', 'company', 'role'])
+}
+
+async function postClientDb(reqBody) {
+  return client('clients')
+    .insert({
+      first_name: reqBody.firstName,
+      last_name: reqBody.lastName,
+      company: reqBody.company,
+      role: reqBody.role,
+    })
+    .returning(['id', 'first_name AS firstName', 'last_name AS lastName', 'company', 'role'])
+}
+
 async function postProjectDb(reqBody) {
   return client('projects')
     .insert({
@@ -96,6 +111,8 @@ async function updateProjectDb(id, reqBody) {
 
 module.exports = {
   client,
+  getClientsDb,
+  postClientDb,
   getProjectsDb,
   getProjectByNameDb,
   postProjectDb,

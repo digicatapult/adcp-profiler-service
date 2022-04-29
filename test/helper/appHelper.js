@@ -3,9 +3,7 @@ const { expect } = require('chai')
 const moment = require('moment')
 
 const createProject = (project) => {
-  const projectObj = { ...project }
-
-  return projectObj
+  return { ...project }
 }
 
 const createDefaultProject = ({ clientId }) => {
@@ -21,13 +19,11 @@ const createDefaultProject = ({ clientId }) => {
 }
 
 const createClient = (client) => {
-  const clientObj = { ...client }
-
-  return clientObj
+  return { ...client }
 }
 
 const createDefaultClient = () => {
-  return createProject({
+  return createClient({
     firstName: 'First name 1',
     lastName: 'Last name 1',
     company: 'Company 1',
@@ -37,6 +33,14 @@ const createDefaultClient = () => {
 
 const assertUuidV4 = (id) => {
   expect(uuidValidate(id) && uuidVersion(id) === 4).to.be.true
+}
+
+const assertClientParams = (actualResult, expectedResult) => {
+  assertUuidV4(actualResult.id)
+  expect(actualResult.firstName).to.equal(expectedResult.firstName)
+  expect(actualResult.lastName).to.equal(expectedResult.lastName)
+  expect(actualResult.company).to.equal(expectedResult.company)
+  expect(actualResult.role).to.equal(expectedResult.role)
 }
 
 const assertPostProjectRequiredParams = (actualResult, expectedResult) => {
@@ -66,6 +70,7 @@ const assertGetProjects = (actualResult, expectedResult) => {
 module.exports = {
   createClient,
   createDefaultClient,
+  assertClientParams,
   createProject,
   createDefaultProject,
   assertUuidV4,
