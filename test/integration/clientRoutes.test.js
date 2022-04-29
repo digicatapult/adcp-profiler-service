@@ -90,7 +90,13 @@ describe('Client routes', function () {
     assertClientParams(actualResponse.body, expectedResult)
   })
 
-  test.skip('PUT client with missing fields', async function () {})
+  test('PUT client with missing fields', async function () {
+    const response = await postClientRoute(defaultClient, app)
+    const actualResponse = await putClientRoute(response.body.id, {}, app)
+
+    expect(actualResponse.status).to.equal(400)
+    expect(actualResponse.body).to.deep.equal({})
+  })
 
   test.skip('PUT client for non-existing client', async function () {})
 

@@ -71,6 +71,15 @@ module.exports = function (apiService) {
         },
       },
     ],
+    requestBody: {
+      content: {
+        'application/json': {
+          schema: {
+            $ref: '#/components/schemas/PostAndPutClient',
+          },
+        },
+      },
+    },
     responses: PUT_CLIENT_RESPONSES,
     tags: ['clients'],
   }
