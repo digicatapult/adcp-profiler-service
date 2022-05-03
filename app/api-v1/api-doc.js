@@ -30,6 +30,57 @@ const apiDoc = {
       },
     },
     schemas: {
+      GetClient: {
+        description: 'Schema for retrieving a client',
+        type: 'object',
+        properties: {
+          id: {
+            description: 'Id of the client',
+            type: 'string',
+            format: 'uuid',
+          },
+          firstName: {
+            description: 'First name of the client',
+            type: 'string',
+          },
+          lastName: {
+            description: 'Last name of the client',
+            type: 'string',
+          },
+          company: {
+            description: 'Company of the client',
+            type: 'string',
+          },
+          role: {
+            description: 'Role of the client',
+            type: 'string',
+          },
+        },
+        required: ['id', 'firstName', 'lastName', 'company', 'role'],
+      },
+      PostAndPutClient: {
+        description: 'Schema for creating/updating a client',
+        type: 'object',
+        properties: {
+          firstName: {
+            description: 'First name of the client',
+            type: 'string',
+          },
+          lastName: {
+            description: 'Last name of the client',
+            type: 'string',
+          },
+          company: {
+            description: 'Company of the client',
+            type: 'string',
+          },
+          role: {
+            description: 'Role of the client',
+            type: 'string',
+          },
+        },
+        required: ['firstName', 'lastName', 'company', 'role'],
+      },
       GetProject: {
         description: 'GET project',
         type: 'object',

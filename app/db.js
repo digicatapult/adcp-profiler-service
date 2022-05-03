@@ -17,6 +17,43 @@ const client = knex({
   },
 })
 
+async function findClientsDb() {
+  return client('clients').select(['id', 'first_name AS firstName', 'last_name AS lastName', 'company', 'role'])
+}
+
+async function findClientByIdDb(id) {
+  return client('clients')
+    .select(['id', 'first_name AS firstName', 'last_name AS lastName', 'company', 'role'])
+    .where({ id })
+}
+
+async function addClientDb(reqBody) {
+  return client('clients')
+    .insert({
+      first_name: reqBody.firstName,
+      last_name: reqBody.lastName,
+      company: reqBody.company,
+      role: reqBody.role,
+    })
+    .returning(['id', 'first_name AS firstName', 'last_name AS lastName', 'company', 'role'])
+}
+
+async function updateClientDb(id, reqBody) {
+  return client('clients')
+    .update({
+      first_name: reqBody.firstName,
+      last_name: reqBody.lastName,
+      company: reqBody.company,
+      role: reqBody.role,
+    })
+    .where({ id })
+    .returning(['id', 'first_name AS firstName', 'last_name AS lastName', 'company', 'role'])
+}
+
+async function removeClientDb(id) {
+  return client('clients').del().where({ id })
+}
+
 async function postProjectDb(reqBody) {
   return client('projects')
     .insert({
@@ -96,6 +133,11 @@ async function updateProjectDb(id, reqBody) {
 
 module.exports = {
   client,
+  findClientsDb,
+  findClientByIdDb,
+  addClientDb,
+  updateClientDb,
+  removeClientDb,
   getProjectsDb,
   getProjectByNameDb,
   postProjectDb,

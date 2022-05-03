@@ -3,9 +3,7 @@ const { expect } = require('chai')
 const moment = require('moment')
 
 const createProject = (project) => {
-  const projectObj = { ...project }
-
-  return projectObj
+  return { ...project }
 }
 
 const createDefaultProject = ({ clientId }) => {
@@ -20,8 +18,37 @@ const createDefaultProject = ({ clientId }) => {
   })
 }
 
+const createClient = (client) => {
+  return { ...client }
+}
+
+const createDefaultClient = () => {
+  return createClient({
+    firstName: 'First name 1',
+    lastName: 'Last name 1',
+    company: 'Company 1',
+    role: 'Role 1',
+  })
+}
+
 const assertUuidV4 = (id) => {
   expect(uuidValidate(id) && uuidVersion(id) === 4).to.be.true
+}
+
+const assertClientParams = (actualResult, expectedResult) => {
+  assertUuidV4(actualResult.id)
+  expect(actualResult.firstName).to.equal(expectedResult.firstName)
+  expect(actualResult.lastName).to.equal(expectedResult.lastName)
+  expect(actualResult.company).to.equal(expectedResult.company)
+  expect(actualResult.role).to.equal(expectedResult.role)
+}
+
+const assertGetClients = (actualResults, expectedResults) => {
+  expect(actualResults.length).to.equal(expectedResults.length)
+
+  actualResults.forEach((actualResult, index) => {
+    assertClientParams(actualResult, expectedResults[index])
+  })
 }
 
 const assertPostProjectRequiredParams = (actualResult, expectedResult) => {
@@ -40,15 +67,19 @@ const assertPostProjectParams = (actualResult, expectedResult) => {
   expect(actualResult.documentUrl).to.equal(expectedResult.documentUrl)
 }
 
-const assertGetProjects = (actualResult, expectedResult) => {
-  expect(actualResult.length).to.equal(expectedResult.length)
+const assertGetProjects = (actualResults, expectedResults) => {
+  expect(actualResults.length).to.equal(expectedResults.length)
 
-  actualResult.forEach((item, index) => {
-    assertPostProjectParams(item, expectedResult[index])
+  actualResults.forEach((actualResult, index) => {
+    assertPostProjectParams(actualResult, expectedResults[index])
   })
 }
 
 module.exports = {
+  createClient,
+  createDefaultClient,
+  assertClientParams,
+  assertGetClients,
   createProject,
   createDefaultProject,
   assertUuidV4,
