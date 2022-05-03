@@ -2,6 +2,20 @@ apiVersion: v1
 entries:
   adcp-profiler-service:
   - apiVersion: v2
+    appVersion: 0.0.3
+    created: "2022-05-03T08:31:18.883775197Z"
+    description: A Helm chart for adcp-profiler-service
+    digest: 714d18a55e15a2198741b1cbc412ad2df234b6eaf635831a424c0bbcafbc4dd0
+    maintainers:
+    - email: opensource@digicatapult.org.uk
+      name: digicatapult
+      url: www.digicatapult.org.uk
+    name: adcp-profiler-service
+    type: application
+    urls:
+    - https://digicatapult.github.io/adcp-profiler-service/adcp-profiler-service-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
     appVersion: 0.0.2
     created: "2022-04-28T17:16:08.170443632Z"
     description: A Helm chart for adcp-profiler-service
@@ -29,4 +43,4 @@ entries:
     urls:
     - https://digicatapult.github.io/adcp-profiler-service/adcp-profiler-service-0.0.1.tgz
     version: 0.0.1
-generated: "2022-04-28T17:16:08.169834525Z"
+generated: "2022-05-03T08:31:18.883346601Z"
