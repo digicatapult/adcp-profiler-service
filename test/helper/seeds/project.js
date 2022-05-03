@@ -18,10 +18,10 @@ const seed = async () => {
   await client('clients').insert([
     {
       id: clientId,
-      first_name: 'Steve',
-      last_name: 'Davies',
-      company: 'MyCompany',
-      role: 'Manager',
+      first_name: 'First name 1',
+      last_name: 'Last name 1',
+      company: 'Company 1',
+      role: 'Role 1',
     },
   ])
 }

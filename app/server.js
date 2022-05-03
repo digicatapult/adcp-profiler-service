@@ -38,10 +38,7 @@ async function createHttpServer() {
       apiService: v1ApiService,
     },
     customFormats: {
-      startDate: function (input) {
-        return moment(input, moment.ISO_8601).isValid()
-      },
-      endDate: function (input) {
+      'js-date': function (input) {
         return moment(input, moment.ISO_8601).isValid()
       },
     },

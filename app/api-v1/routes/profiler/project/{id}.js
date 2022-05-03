@@ -1,12 +1,15 @@
 const {
   validateGetProjectByIdResponse,
   GET_PROJECT_BY_ID_RESPONSES,
-} = require('../../../validators/getProjectByIdResponseValidator')
-const { PUT_PROJECT_RESPONSES, validatePutProjectResponse } = require('../../../validators/putProjectResponseValidator')
+} = require('../../../validators/project/getProjectByIdResponseValidator')
+const {
+  PUT_PROJECT_RESPONSES,
+  validatePutProjectResponse,
+} = require('../../../validators/project/putProjectResponseValidator')
 const {
   DELETE_PROJECT_RESPONSES,
   validateDeleteProjectResponse,
-} = require('../../../validators/deleteProjectResponseValidator')
+} = require('../../../validators/project/deleteProjectResponseValidator')
 
 module.exports = function (apiService) {
   const doc = {
@@ -40,7 +43,7 @@ module.exports = function (apiService) {
     },
     DELETE: async function (req, res) {
       const { id } = req.params
-      const { statusCode, result } = await apiService.deleteProjectById(id)
+      const { statusCode, result } = await apiService.deleteProject(id)
 
       const validationErrors = validateDeleteProjectResponse(statusCode, result)
 
@@ -48,21 +51,24 @@ module.exports = function (apiService) {
         res.status(statusCode).json(validationErrors)
         return
       } else {
-        res.status(statusCode).json(result)
+        res.status(statusCode).send()
         return
       }
     },
   }
 
   doc.GET.apiDoc = {
-    summary: 'Get project by id',
+    summary: 'Retrieve project by id',
     parameters: [
       {
-        description: 'Project id',
+        description: 'Id of the project',
         in: 'path',
         required: true,
         name: 'id',
-        allowEmptyValue: false,
+        schema: {
+          type: 'string',
+          format: 'uuid',
+        },
       },
     ],
     responses: GET_PROJECT_BY_ID_RESPONSES,
@@ -73,11 +79,14 @@ module.exports = function (apiService) {
     summary: 'Update project',
     parameters: [
       {
-        description: 'ID of the project',
+        description: 'Id of the project',
         in: 'path',
         required: true,
         name: 'id',
-        allowEmptyValue: false,
+        schema: {
+          type: 'string',
+          format: 'uuid',
+        },
       },
     ],
     requestBody: {
@@ -94,14 +103,17 @@ module.exports = function (apiService) {
   }
 
   doc.DELETE.apiDoc = {
-    summary: 'Delete project',
+    summary: 'Remove project',
     parameters: [
       {
-        description: 'Project id',
+        description: 'Id of the project',
         in: 'path',
         required: true,
         name: 'id',
-        allowEmptyValue: false,
+        schema: {
+          type: 'string',
+          format: 'uuid',
+        },
       },
     ],
     responses: DELETE_PROJECT_RESPONSES,
