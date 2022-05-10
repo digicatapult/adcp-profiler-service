@@ -78,9 +78,19 @@ async function postProject(reqBody) {
   const findResult = await findProjectByNameDb(reqBody.name)
 
   if (findResult.length === 0) {
-    const result = await addProjectDb(reqBody)
+    if (reqBody.firstName || reqBody.lastName || reqBody.company || reqBody.role) {
+      const { statusCode: clientStatusCode, result: clientResult } = await postClient(reqBody)
 
-    return { statusCode: 201, result: result[0] }
+      if (clientStatusCode === 201) {
+        const result = await addProjectDb({ ...reqBody, clientId: clientResult.id })
+
+        return { statusCode: 201, result: result[0] }
+      }
+    } else {
+      const result = await addProjectDb(reqBody)
+
+      return { statusCode: 201, result: result[0] }
+    }
   } else {
     return { statusCode: 409, result: {} }
   }

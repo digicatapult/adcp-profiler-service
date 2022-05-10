@@ -10,7 +10,7 @@ const {
   putClientRoute,
   deleteClientRoute,
 } = require('../helper/clientRouteHelper')
-const { cleanupAll, cleanup } = require('../helper/seeds/project')
+const { cleanupAll, cleanup } = require('../../seeds/project')
 
 describe('Client routes', function () {
   let app

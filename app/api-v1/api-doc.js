@@ -128,7 +128,7 @@ const apiDoc = {
         },
         required: ['id', 'clientId', 'name', 'description'],
       },
-      PostAndPutProject: {
+      PostAndPutProjectWithClientId: {
         description: 'Schema for creating/updating a project',
         type: 'object',
         properties: {
@@ -169,6 +169,59 @@ const apiDoc = {
           },
         },
         required: ['clientId', 'name', 'description'],
+      },
+      PostProjectWithClient: {
+        description: 'Schema for creating/updating a project',
+        type: 'object',
+        properties: {
+          firstName: {
+            description: 'First name of the client',
+            type: 'string',
+          },
+          lastName: {
+            description: 'Last name of the client',
+            type: 'string',
+          },
+          company: {
+            description: 'Company of the client',
+            type: 'string',
+          },
+          role: {
+            description: 'Role of the client',
+            type: 'string',
+          },
+          name: {
+            description: 'Name of the project',
+            type: 'string',
+          },
+          description: {
+            description: 'Description of the project',
+            type: 'string',
+          },
+          startDate: {
+            description: 'Start date of the project',
+            type: 'string',
+            format: 'date-time',
+            nullable: true,
+          },
+          endDate: {
+            description: 'End date of the project',
+            type: 'string',
+            format: 'date-time',
+            nullable: true,
+          },
+          budget: {
+            description: 'Budget of the project',
+            type: 'number',
+            nullable: true,
+          },
+          documentUrl: {
+            description: 'Document url of the project',
+            type: 'string',
+            nullable: true,
+          },
+        },
+        required: ['firstName', 'lastName', 'company', 'role', 'name', 'description'],
       },
     },
   },
