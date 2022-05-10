@@ -10,6 +10,7 @@ const {
   findClientByIdDb,
   updateClientDb,
   removeClientDb,
+  client,
 } = require('../../db')
 
 async function getClients() {
@@ -78,7 +79,17 @@ async function postProject(reqBody) {
   const findResult = await findProjectByNameDb(reqBody.name)
 
   if (findResult.length === 0) {
-    if (reqBody.firstName || reqBody.lastName || reqBody.company || reqBody.role) {
+    if (reqBody.clientId) {
+      const { statusCode: clientStatusCode } = await getClientById(reqBody.clientId)
+
+      if (clientStatusCode === 200) {
+        const result = await addProjectDb(reqBody)
+
+        return { statusCode: 201, result: result[0] }
+      } else {
+        return { statusCode: clientStatusCode, result: {} }
+      }
+    } else {
       const { statusCode: clientStatusCode, result: clientResult } = await postClient(reqBody)
 
       if (clientStatusCode === 201) {
@@ -86,10 +97,6 @@ async function postProject(reqBody) {
 
         return { statusCode: 201, result: result[0] }
       }
-    } else {
-      const result = await addProjectDb(reqBody)
-
-      return { statusCode: 201, result: result[0] }
     }
   } else {
     return { statusCode: 409, result: {} }
