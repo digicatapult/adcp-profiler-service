@@ -47,6 +47,7 @@ const assertUuidV4 = (id) => {
 
 const assertClientParams = (actualResult, expectedResult) => {
   assertUuidV4(actualResult.id)
+
   expect(actualResult.firstName).to.equal(expectedResult.firstName)
   expect(actualResult.lastName).to.equal(expectedResult.lastName)
   expect(actualResult.company).to.equal(expectedResult.company)
