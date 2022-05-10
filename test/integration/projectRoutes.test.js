@@ -20,7 +20,7 @@ const {
   putProjectRoute,
   deleteProjectRoute,
 } = require('../helper/projectRouteHelper')
-const { seed, cleanup, cleanupAll } = require('../../seeds/project')
+const { seed, cleanup, cleanupAll } = require('../seeds/project')
 
 describe('Project routes', function () {
   let app
