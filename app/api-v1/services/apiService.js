@@ -10,7 +10,6 @@ const {
   findClientByIdDb,
   updateClientDb,
   removeClientDb,
-  client,
 } = require('../../db')
 
 async function getClients() {
