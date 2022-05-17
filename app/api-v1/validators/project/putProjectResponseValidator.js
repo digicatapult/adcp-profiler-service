@@ -14,6 +14,7 @@ const PUT_PROJECT_RESPONSES = {
   },
   400: apiDocResponses['400'],
   404: apiDocResponses['404'],
+  409: apiDocResponses['409'],
   default: apiDocResponses.default,
 }
 

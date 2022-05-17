@@ -170,7 +170,7 @@ const apiDoc = {
         },
         required: ['clientId', 'name', 'description'],
       },
-      PostProjectWithClient: {
+      PostAndPutProjectWithClient: {
         description: 'Schema for creating/updating a project',
         type: 'object',
         properties: {

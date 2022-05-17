@@ -163,9 +163,34 @@ describe('Project routes', function () {
       assertPostProjectRequiredParams(actualResponse.body, expectedResult)
     })
 
-    test('PUT project with existing name', async function () {
-      const response = await postProjectRoute(defaultProjectWithClientId, app)
-      const actualResponse = await putProjectRoute(response.body.id, defaultProjectWithClientId, app)
+    test('PUT project with existing name of same project', async function () {
+      const project = createProject({ clientId, name: 'Project 1', description: 'Project 1 description' })
+      const updatedProject = createProject({
+        clientId,
+        name: 'Project 1',
+        description: 'Project 1 description updated',
+      })
+      const expectedResult = updatedProject
+
+      const response = await postProjectRoute(project, app)
+      const actualResponse = await putProjectRoute(response.body.id, updatedProject, app)
+
+      expect(actualResponse.status).to.equal(200)
+      assertPostProjectRequiredParams(actualResponse.body, expectedResult)
+    })
+
+    test('PUT project with existing name of different project', async function () {
+      const projectOne = createProject({ clientId, name: 'Project 1', description: 'Project 1 description' })
+      const projectTwo = createProject({ clientId, name: 'Project 2', description: 'Project 2 description' })
+      const updatedProjectTwo = createProject({
+        clientId,
+        name: 'Project 1',
+        description: 'Project 2 description updated',
+      })
+
+      await postProjectRoute(projectOne, app)
+      const response = await postProjectRoute(projectTwo, app)
+      const actualResponse = await putProjectRoute(response.body.id, updatedProjectTwo, app)
 
       expect(actualResponse.status).to.equal(409)
       expect(actualResponse.body).to.deep.equal({})

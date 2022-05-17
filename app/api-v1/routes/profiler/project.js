@@ -51,7 +51,7 @@ module.exports = function (apiService) {
           schema: {
             oneOf: [
               { $ref: '#/components/schemas/PostAndPutProjectWithClientId' },
-              { $ref: '#/components/schemas/PostProjectWithClient' },
+              { $ref: '#/components/schemas/PostAndPutProjectWithClient' },
             ],
           },
         },
