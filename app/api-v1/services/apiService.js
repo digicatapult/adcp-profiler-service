@@ -115,9 +115,19 @@ async function putProject(id, reqBody) {
     const findProjectByNameAndWhereNotIdResult = await findProjectByNameAndWhereNotIdDb(reqBody.name, id)
 
     if (findProjectByNameAndWhereNotIdResult.length === 0) {
-      const result = await updateProjectDb(id, reqBody)
+      if (reqBody.clientId) {
+        const result = await updateProjectDb(id, reqBody)
 
-      return { statusCode: 200, result: result[0] }
+        return { statusCode: 200, result: result[0] }
+      } else {
+        const { statusCode: clientStatusCode, result: clientResult } = await postClient(reqBody)
+
+        if (clientStatusCode === 201) {
+          const result = await updateProjectDb(id, { ...reqBody, clientId: clientResult.id })
+
+          return { statusCode: 200, result: result[0] }
+        }
+      }
     } else {
       return { statusCode: 409, result: {} }
     }
