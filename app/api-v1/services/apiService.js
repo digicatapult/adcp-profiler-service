@@ -10,6 +10,7 @@ const {
   findClientByIdDb,
   updateClientDb,
   removeClientDb,
+  findProjectByNameAndWhereNotIdDb,
 } = require('../../db')
 
 async function getClients() {
@@ -78,25 +79,58 @@ async function postProject(reqBody) {
   const findResult = await findProjectByNameDb(reqBody.name)
 
   if (findResult.length === 0) {
-    const result = await addProjectDb(reqBody)
+    if (reqBody.clientId) {
+      const { statusCode: clientStatusCode } = await getClientById(reqBody.clientId)
 
-    return { statusCode: 201, result: result[0] }
+      if (clientStatusCode === 200) {
+        const result = await addProjectDb(reqBody)
+
+        return { statusCode: 201, result: result[0] }
+      } else {
+        return { statusCode: clientStatusCode, result: {} }
+      }
+    } else {
+      const { statusCode: clientStatusCode, result: clientResult } = await postClient(reqBody)
+
+      if (clientStatusCode === 201) {
+        const result = await addProjectDb({ ...reqBody, clientId: clientResult.id })
+
+        return { statusCode: 201, result: result[0] }
+      }
+    }
   } else {
     return { statusCode: 409, result: {} }
   }
 }
 
 async function putProject(id, reqBody) {
-  const findResult = await findProjectByIdDb(id)
+  // lookup existing project by id
+  const findProjectByIdResult = await findProjectByIdDb(id)
 
-  if (findResult.length === 0) {
+  // exists?
+  if (findProjectByIdResult.length === 0) {
     return { statusCode: 404, result: {} }
-  } else if (findResult[0].name !== reqBody.name) {
-    const result = await updateProjectDb(id, reqBody)
-
-    return { statusCode: 200, result: result[0] }
   } else {
-    return { statusCode: 409, result: {} }
+    // lookup all projects by name in case of clash, but exclude current project id as not a clash if name is unchanged
+    const findProjectByNameAndWhereNotIdResult = await findProjectByNameAndWhereNotIdDb(reqBody.name, id)
+
+    if (findProjectByNameAndWhereNotIdResult.length === 0) {
+      if (reqBody.clientId) {
+        const result = await updateProjectDb(id, reqBody)
+
+        return { statusCode: 200, result: result[0] }
+      } else {
+        const { statusCode: clientStatusCode, result: clientResult } = await postClient(reqBody)
+
+        if (clientStatusCode === 201) {
+          const result = await updateProjectDb(id, { ...reqBody, clientId: clientResult.id })
+
+          return { statusCode: 200, result: result[0] }
+        }
+      }
+    } else {
+      return { statusCode: 409, result: {} }
+    }
   }
 }
 

@@ -94,6 +94,10 @@ async function findProjectByNameDb(name) {
   return client('projects').select('name').where({ name })
 }
 
+async function findProjectByNameAndWhereNotIdDb(name, id) {
+  return client('projects').select('name').where({ name }).andWhereNot({ id })
+}
+
 async function findProjectByIdDb(id) {
   return client('projects')
     .select([
@@ -140,6 +144,7 @@ module.exports = {
   removeClientDb,
   findProjectsDb,
   findProjectByNameDb,
+  findProjectByNameAndWhereNotIdDb,
   addProjectDb,
   findProjectByIdDb,
   removeProjectDb,

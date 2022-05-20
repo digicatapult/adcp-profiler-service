@@ -12,7 +12,7 @@ const vars = envalid.cleanEnv(
   process.env,
   {
     SERVICE_TYPE: envalid.str({ default: 'adcp-profiler-service'.toUpperCase().replace(/-/g, '_') }),
-    PORT: envalid.port({ default: 80, devDefault: 3000 }),
+    PORT: envalid.port({ default: 80, devDefault: 3001 }),
     API_VERSION: envalid.str({ default: version }),
     API_MAJOR_VERSION: envalid.str({ default: 'v1' }),
     LOG_LEVEL: envalid.str({ default: 'info', devDefault: 'debug' }),
